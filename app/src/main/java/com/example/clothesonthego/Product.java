@@ -1,14 +1,14 @@
 package com.example.clothesonthego;
 
 public class Product {
-    private final int id;
-    private ProductCategory type;
+    private final String id;
+    private String type;
     private final String name;
     private int quantity;
     private final String photoUrl;
     private float price;
 
-    public Product(int id, ProductCategory type, String name, int quantity, String photoUrl, float price) {
+    public Product(String id, String type, String name, int quantity, String photoUrl, float price) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -17,11 +17,11 @@ public class Product {
         this.price = price;
     }
 
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 
-    public ProductCategory getType() {
+    public String getType() {
         return this.type;
     }
 
@@ -41,7 +41,7 @@ public class Product {
         return this.price;
     }
 
-    public int setQuantitiy (int q) {
+    public void setQuantity (int q) {
         this.quantity = q;
     }
 }

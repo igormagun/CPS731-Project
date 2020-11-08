@@ -4,7 +4,7 @@ package com.example.clothesonthego;
  * A class representing the cost of shipping to a given city, based on database entries from Firestore
  */
 public class Shipping {
-    private final int id;
+    private final String id;
     private final String city;
     private float cost;
 
@@ -14,7 +14,7 @@ public class Shipping {
      * @param city The city name
      * @param cost The cost of shipping
      */
-    public Shipping(int id, String city, float cost) {
+    public Shipping(String id, String city, float cost) {
         this.id = id;
         this.city = city;
         this.cost = cost;
@@ -33,7 +33,6 @@ public class Shipping {
      * @return The cost
      */
     public float getCost() {
-        // TODO: Add a check for an updated cost from Firestore
         return this.cost;
     }
 }

@@ -18,4 +18,8 @@ public class ProductCategory {
     public ArrayList<Product> getProducts() {
         return this.products;
     }
+
+    public void addProduct(Product product) {
+        products.add(product);
+    }
 }
