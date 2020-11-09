@@ -9,14 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ClothesOnTheGo">
-        <activity android:name=".CategoryActivity"
+        <activity android:name=".SignInActivity"></activity>
+        <activity
+            android:name=".CategoryActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CategoryListActivity"></activity>
+        <activity android:name=".CategoryListActivity" />
         <activity android:name=".CheckoutActivity" />
         <activity android:name=".ProductActivity" />
         <activity android:name=".CartActivity" />
