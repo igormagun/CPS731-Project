@@ -35,11 +35,6 @@ public class SignInActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
         if(user != null) {
-            String userId = user.getUid();
-
-            // If a user cart does not exist, we create it in Firestore
-            controller.createCart(userId);
-
             Intent intent = new Intent(getApplicationContext(), Profile.class);
             startActivity(intent);
         }
@@ -106,6 +101,11 @@ public class SignInActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            // If a user cart does not exist, we create it in Firestore
+                            String userId = user.getUid();
+                            controller.createCart(userId);
+
                             Intent intent = new Intent(getApplicationContext(), Profile.class);
                             startActivity(intent);
                         } else {
