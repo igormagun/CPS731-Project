@@ -1,5 +1,6 @@
 package com.example.clothesonthego;
 
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -10,7 +11,6 @@ import java.util.HashMap;
  * A controller to interact with the Firestore database
  */
 public class DBController {
-
     /**
      * Loads all products from Firestore
      * @return An ArrayList of all the products, in their respective categories
@@ -74,5 +74,21 @@ public class DBController {
                 });
 
         return shippingList;
+    }
+
+    /**
+     * Create a cart for the specified user ID, if it does not already exist
+     * @param userID The user ID
+     */
+    public void createCart(String userID) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference cartRef = db.collection("carts").document(userID);
+        cartRef.get().addOnCompleteListener(
+                task -> {
+                    if (!task.getResult().exists()) {
+                        db.collection("carts").document(userID).set(new HashMap<>());
+                    }
+                } );
     }
 }

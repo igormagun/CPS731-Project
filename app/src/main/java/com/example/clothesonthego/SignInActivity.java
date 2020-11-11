@@ -28,12 +28,18 @@ public class SignInActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private final static int RC_SIGN_IN = 0;
     private FirebaseAuth mAuth;
+    private final DBController controller = new DBController();
 
     @Override
     protected void onStart() {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
         if(user != null) {
+            String userId = user.getUid();
+
+            // If a user cart does not exist, we create it in Firestore
+            controller.createCart(userId);
+
             Intent intent = new Intent(getApplicationContext(), Profile.class);
             startActivity(intent);
         }
