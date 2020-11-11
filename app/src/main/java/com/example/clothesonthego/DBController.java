@@ -6,6 +6,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * A controller to interact with the Firestore database
@@ -77,17 +79,120 @@ public class DBController {
     }
 
     /**
-     * Create a cart for the specified user ID, if it does not already exist
-     * @param userID The user ID
+     * Load cart contents for the specified user from Firestore
+     * @param userId The user's ID
+     * @return The cart contents, as a HashMap
      */
-    public void createCart(String userID) {
+    public AtomicReference<Map<String, Object>> loadCart(String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        AtomicReference<Map<String, Object>> result = null;
+
+        db.collection("carts").document(userId).get().addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
+                        result.set(task.getResult().getData());
+                    }
+                }
+        );
+
+        return result;
+    }
+
+    /**
+     * Add the specified item to the specified user's cart
+     * @param userId The user's ID
+     * @param productId The product ID
+     * @param quantity The quantity of the product
+     */
+    public void addToCart(String userId, String productId, int quantity) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        DocumentReference cartRef = db.collection("carts").document(userID);
+        db.collection("carts").document(userId).get().addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
+                        Map<String, Object> result = task.getResult().getData();
+                        if (result.containsKey(productId)) {
+                            Integer currentQuantity = (Integer) result.get(productId);
+                            Integer newQuantity = currentQuantity + quantity;
+                            result.put(productId, newQuantity);
+
+                            db.collection("carts").document(userId).set(result);
+                        }
+                    }
+                }
+        );
+    }
+
+    /**
+     * Modify the quantity of an item in the user's cart
+     * @param userId The user's ID
+     * @param productId The product ID to modify
+     * @param newQuantity The new quantity
+     */
+    public void modifyCartQuantity(String userId, String productId, int newQuantity) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("carts").document(userId).get().addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
+                        Map<String, Object> result = task.getResult().getData();
+                        result.put(productId, newQuantity);
+                        db.collection("carts").document(userId).set(result);
+                    }
+                }
+        );
+    }
+
+    /**
+     * Remove an item from the user's cart
+     * @param userId The user's ID
+     * @param productId The product to remove
+     */
+    public void removeFromCart(String userId, String productId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("carts").document(userId).get().addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
+                        Map<String, Object> result = task.getResult().getData();
+                        result.remove(productId);
+                        db.collection("carts").document(userId).set(result);
+                    }
+                }
+        );
+    }
+
+    /**
+     * Set the order destination in a user's cart
+     * @param userId The user's ID
+     * @param destination The new destination to set
+     */
+    public void setDestination(String userId, String destination) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("carts").document(userId).get().addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
+                        Map<String, Object> result = task.getResult().getData();
+                        result.put("destination", destination);
+                        db.collection("carts").document(userId).set(result);
+                    }
+                }
+        );
+    }
+
+    /**
+     * Create a cart for the specified user ID, if it does not already exist
+     * @param userId The user ID
+     */
+    public void createCart(String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference cartRef = db.collection("carts").document(userId);
         cartRef.get().addOnCompleteListener(
                 task -> {
                     if (!task.getResult().exists()) {
-                        db.collection("carts").document(userID).set(new HashMap<>());
+                        db.collection("carts").document(userId).set(new HashMap<>());
                     }
                 } );
     }

@@ -3,6 +3,8 @@ package com.example.clothesonthego;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,24 +12,23 @@ import java.util.Map;
  * A class representing the user's cart
  */
 public class Cart {
-    private HashMap<String, Integer> products;
+    private final HashMap<String, Integer> products = new HashMap<>();
     private String destination;
-    private final SharedPreferences.Editor cartEditor;
-    private final String destination_key;
+    private static final String DEST_KEY = "destination";
+    private final FirebaseAuth mAuth;
+    private final DBController controller;
 
     /**
-     * A constructor for the cart, which will read any previous cart contents from SharedPreferences
-     * @param context The context provided by the CartActivity
+     * A constructor for the cart, which will read any existing cart contents from Firestore
      */
-    public Cart(Context context) {
-        SharedPreferences cart = context.getSharedPreferences(context.getString(R.string.cart_file),
-                Context.MODE_PRIVATE);
-        cartEditor = cart.edit();
-        destination_key = context.getString(R.string.destination_key);
+    public Cart() {
+        mAuth = FirebaseAuth.getInstance();
+        controller = new DBController();
 
         // Read all contents from cart
-        for (Map.Entry<String,?> cartEntry : cart.getAll().entrySet()) {
-            if (cartEntry.getKey().equals(destination_key)) {
+        for (Map.Entry<String,Object> cartEntry : controller.loadCart(mAuth.getUid()).get()
+                .entrySet()) {
+            if (cartEntry.getKey().equals(DEST_KEY)) {
                 destination = (String) cartEntry.getValue();
             }
             else {
@@ -42,8 +43,7 @@ public class Cart {
      */
     public void setDestination(String destination) {
         this.destination = destination;
-        cartEditor.putString(destination_key, destination);
-        cartEditor.apply();
+        controller.setDestination(mAuth.getUid(), destination);
     }
 
     /**
@@ -72,15 +72,13 @@ public class Cart {
         if (products.containsKey(productId)) {
             int currentValue = products.get(productId);
             products.put(productId, currentValue + quantity);
-            cartEditor.putInt(productId, currentValue + quantity);
+            controller.addToCart(mAuth.getUid(), productId, quantity);
         }
         // If the item is not in the cart, add it
         else {
             products.put(productId, quantity);
-            cartEditor.putInt(productId, quantity);
+            controller.addToCart(mAuth.getUid(), productId, quantity);
         }
-        // Apply changes to the SharedPreferences
-        cartEditor.apply();
     }
 
     /**
@@ -90,8 +88,7 @@ public class Cart {
      */
     public void modifyQuantity(String productId, int quantity) {
         products.put(productId, quantity);
-        cartEditor.putInt(productId, quantity);
-        cartEditor.apply();
+        controller.modifyCartQuantity(mAuth.getUid(), productId, quantity);
     }
 
     /**
@@ -100,7 +97,6 @@ public class Cart {
      */
     public void removeFromCart(String productId) {
         products.remove(productId);
-        cartEditor.remove(productId);
-        cartEditor.apply();
+        controller.removeFromCart(mAuth.getUid(), productId);
     }
 }
