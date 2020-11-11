@@ -48,7 +48,7 @@ public class SignInActivity extends AppCompatActivity {
 
         createRequest();
 
-        findViewById(R.id./*SET LOGIN UI FIELD ID HERE*/).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.LoginButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn();

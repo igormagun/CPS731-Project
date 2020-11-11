@@ -14,7 +14,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Profile extends AppCompatActivity {
 
-    TextView name, mail;
     Button logout;
 
     @Override
@@ -22,7 +21,7 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        logout = findViewById(R.id./*SET LOGIN UI FIELD ID HERE*/);
+        logout = findViewById(R.id.LogoutButton);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
