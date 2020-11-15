@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class Cart {
     private final HashMap<String, Integer> products = new HashMap<>();
-    private String destination;
+    private String destination = null;
     private static final String DEST_KEY = "destination";
     private final FirebaseAuth mAuth;
     private final DBController controller;
