@@ -19,6 +19,7 @@ public class ProductActivity extends AppCompatActivity {
     String productName;
     String productDescription;
     String photoUrl;
+    Float price;
 
     TextView name;
     TextView description;
@@ -38,7 +39,9 @@ public class ProductActivity extends AppCompatActivity {
             productName = extras.getString("productName");
             photoUrl = extras.getString("photoUrl");
             productDescription = extras.getString("description");
+            price = extras.getFloat("price");
 
+            // TODO: Display price
             name.setText(productName);
             description.setText(productDescription);
 
