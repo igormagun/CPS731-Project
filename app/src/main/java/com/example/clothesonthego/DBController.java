@@ -54,6 +54,35 @@ public class DBController {
     }
 
     /**
+     * Loads all products from Firestore for a given category
+     * @param category The category name
+     * @return An ArrayList of all products in that category
+     */
+    public ArrayList<Product> loadCategory(String category) {
+        ArrayList<Product> products = new ArrayList<>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("products").whereEqualTo("product_type", category)
+                .get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Product newProduct = new Product(
+                            document.getId(),
+                            (String) document.get("product_type"),
+                            (String) document.get("name"),
+                            (int) document.get("quantity"),
+                            (String) document.get("photo_url"),
+                            (float) document.get("price")
+                    );
+                    products.add(newProduct);
+                }
+            }
+        });
+
+        return products;
+    }
+
+    /**
      * Loads all shipping costs from Firestore
      * @return An ArrayList of all shipping costs
      */
