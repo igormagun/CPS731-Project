@@ -39,6 +39,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.activity_category_list_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
+        return viewHolder;
     }
 
     @Override

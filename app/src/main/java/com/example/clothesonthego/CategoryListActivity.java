@@ -13,7 +13,7 @@ public class CategoryListActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
 
     String[] categoryNameList = {"Shirts", "Pants", "Jackets", "Shoes"};
-    int[] categoryImages = {R.drawable.shirtIcon, R.drawable.pantsIcon, R.drawable.jacketIcon, R.drawable.shoesIcon};
+    int[] categoryImages = {R.drawable.shirt, R.drawable.pants, R.drawable.jacket, R.drawable.shoes};
 
 
     @Override
