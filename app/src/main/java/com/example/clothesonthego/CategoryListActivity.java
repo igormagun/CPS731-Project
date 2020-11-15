@@ -24,7 +24,7 @@ public class CategoryListActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        Adapter = new Adapter(this, categoryNameList, categoryImages);
+        Adapter = new CategoryListAdapter(this, categoryNameList, categoryImages);
 
     }
 }
