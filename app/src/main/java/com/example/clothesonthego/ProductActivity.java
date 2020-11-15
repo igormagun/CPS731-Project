@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ProductActivity extends AppCompatActivity {
@@ -13,17 +16,34 @@ public class ProductActivity extends AppCompatActivity {
     DBController controller;
     FirebaseAuth mAuth;
     String productId;
+    String productName;
+    String productDescription;
+    String photoUrl;
 
+    TextView name;
+    TextView description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
-        // Get the product ID to display
+        name = findViewById(R.id.ProductName);
+        description = findViewById(R.id.ProductDescription);
+
+        // Get the product details to display
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             productId = extras.getString("productId");
+            productName = extras.getString("productName");
+            photoUrl = extras.getString("photoUrl");
+            productDescription = extras.getString("description");
+
+            name.setText(productName);
+            description.setText(productDescription);
+
+            // Load photo from the specified URL
+            Glide.with(this).load(photoUrl).into((ImageView)findViewById(R.id.ProductImage));
         }
 
         controller = new DBController();
@@ -33,8 +53,6 @@ public class ProductActivity extends AppCompatActivity {
         findViewById(R.id.addToCart).setOnClickListener(v ->
                 controller.addToCart(mAuth.getUid(), productId, Integer.parseInt(
                         findViewById(R.id.ProductQuantity).toString())));
-
-        // TODO: Display the product based on what is in the database for the given product ID
     }
 
 
