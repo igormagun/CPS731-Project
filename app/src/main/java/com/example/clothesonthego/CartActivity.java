@@ -17,7 +17,7 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
 
         // Create a cart object - this will read the cart from SharedPreferences
-        cart = new Cart(this);
+        cart = new Cart();
 
         // TODO: Complete the code
     }
