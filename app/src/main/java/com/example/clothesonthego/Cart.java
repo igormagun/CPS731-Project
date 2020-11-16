@@ -69,13 +69,12 @@ public class Cart {
         if (products.containsKey(productId)) {
             int currentValue = products.get(productId);
             products.put(productId, currentValue + quantity);
-            controller.addToCart(mAuth.getUid(), productId, quantity);
         }
         // If the item is not in the cart, add it
         else {
             products.put(productId, quantity);
-            controller.addToCart(mAuth.getUid(), productId, quantity);
         }
+        controller.addToCart(mAuth.getUid(), productId, quantity);
     }
 
     /**

@@ -18,13 +18,13 @@ import java.util.ArrayList;
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder> {
 
     private final Context context;
-    String[] categoryNameList;
-    int[] categoryImages;
+    final String[] categoryNameList;
+    final int[] categoryImages;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView rowName;
-        TextView rowImage;
+        final TextView rowName;
+        final TextView rowImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

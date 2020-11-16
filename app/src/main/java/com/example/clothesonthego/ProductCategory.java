@@ -8,7 +8,7 @@ import java.util.ArrayList;
 // TODO: Determine if this class is still necessary given the current app code
 public class ProductCategory {
     private final String name;
-    ArrayList<Product> products;
+    final ArrayList<Product> products;
 
     public ProductCategory (String name, ArrayList<Product> products) {
         this.name = name;

@@ -6,7 +6,7 @@ package com.example.clothesonthego;
 public class Shipping {
     private final String id;
     private final String city;
-    private float cost;
+    private final float cost;
 
     /**
      * Initialize a Shipping object

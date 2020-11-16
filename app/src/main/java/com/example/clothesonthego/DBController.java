@@ -18,6 +18,7 @@ public class DBController {
      * @return An ArrayList of all the products, in their respective categories
      */
     public ArrayList<ProductCategory> loadProducts() {
+        // TODO: Determine if this function is still needed
         HashMap<String, ProductCategory> categories = new HashMap<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();

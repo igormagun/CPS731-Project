@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -19,12 +18,12 @@ import java.util.ArrayList;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
     private final Context context;
-    ArrayList<Product> products;
+    final ArrayList<Product> products;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView rowName;
-        TextView rowImage;
+        final TextView rowName;
+        final TextView rowImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

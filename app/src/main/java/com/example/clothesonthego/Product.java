@@ -5,11 +5,11 @@ package com.example.clothesonthego;
  */
 public class Product {
     private final String id;
-    private String type;
+    private final String type;
     private final String name;
     private int quantity;
     private final String photoUrl;
-    private float price;
+    private final float price;
     // TODO: Implement description
 
     /**
