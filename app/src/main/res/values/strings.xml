@@ -1,5 +1,3 @@
 <resources>
     <string name="app_name">Clothes On The Go</string>
-    <string name="cart_file">com.example.clothesonthego.CART</string>
-    <string name="destination_key">destination</string>
 </resources>
