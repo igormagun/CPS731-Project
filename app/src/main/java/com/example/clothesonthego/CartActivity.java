@@ -2,7 +2,6 @@ package com.example.clothesonthego;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import java.util.HashMap;
@@ -18,7 +17,7 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        // Create a cart object - this will read the cart from SharedPreferences
+        // Create a cart object - this will read the cart from Firebase
         Cart cart = new Cart();
 
         // Get the destination and products from the cart

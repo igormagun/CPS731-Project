@@ -8,6 +8,9 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+/**
+ * An activity displaying all the products in a given category
+ */
 public class CategoryActivity extends AppCompatActivity {
     private ArrayList<Product> products;
     private RecyclerView recyclerView;
@@ -24,6 +27,7 @@ public class CategoryActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+        // Get the list of products passed in from CategoryListActivity
         Bundle intentExtras = getIntent().getExtras();
         if (intentExtras != null) {
             products = (ArrayList<Product>) intentExtras.get("products");

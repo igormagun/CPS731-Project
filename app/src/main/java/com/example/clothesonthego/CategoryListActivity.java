@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+/**
+ * An activity showing the list of product categories to the user
+ */
 public class CategoryListActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;

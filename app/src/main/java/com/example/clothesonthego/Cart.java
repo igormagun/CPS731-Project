@@ -1,8 +1,5 @@
 package com.example.clothesonthego;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;

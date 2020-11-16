@@ -22,6 +22,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+/**
+ * The activity where the user can sign in
+ */
 public class SignInActivity extends AppCompatActivity {
 
 
@@ -49,12 +52,7 @@ public class SignInActivity extends AppCompatActivity {
 
         createRequest();
 
-        findViewById(R.id.LoginButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
+        findViewById(R.id.LoginButton).setOnClickListener(v -> signIn());
     }
 
     private void createRequest(){
@@ -95,22 +93,19 @@ public class SignInActivity extends AppCompatActivity {
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        FirebaseUser user = mAuth.getCurrentUser();
 
-                            // If a user cart does not exist, we create it in Firestore
-                            String userId = user.getUid();
-                            controller.createCart(userId);
+                        // If a user cart does not exist, we create it in Firestore
+                        String userId = user.getUid();
+                        controller.createCart(userId);
 
-                            Intent intent = new Intent(getApplicationContext(), Profile.class);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(SignInActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
-                        }
+                        Intent intent = new Intent(getApplicationContext(), Profile.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(SignInActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

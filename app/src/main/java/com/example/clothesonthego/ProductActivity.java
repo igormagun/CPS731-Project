@@ -11,6 +11,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * An activity to display an individual product
+ */
 public class ProductActivity extends AppCompatActivity {
 
     DBController controller;
@@ -41,7 +44,7 @@ public class ProductActivity extends AppCompatActivity {
             productDescription = extras.getString("description");
             price = extras.getFloat("price");
 
-            // TODO: Display price
+            // TODO: Display price, implement description
             name.setText(productName);
             description.setText(productDescription);
 

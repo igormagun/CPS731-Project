@@ -2,9 +2,13 @@ package com.example.clothesonthego;
 
 import java.util.ArrayList;
 
+/**
+ * A class for a product category
+ */
+// TODO: Determine if this class is still necessary given the current app code
 public class ProductCategory {
     private final String name;
-    ArrayList<Product> products = new ArrayList<Product>();
+    ArrayList<Product> products;
 
     public ProductCategory (String name, ArrayList<Product> products) {
         this.name = name;
