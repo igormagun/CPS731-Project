@@ -12,12 +12,10 @@ import android.os.Bundle;
 public class CategoryListActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    RecyclerView.Adapter Adapter;
-    RecyclerView.LayoutManager layoutManager;
+    CategoryListAdapter adapter;
 
     final String[] categoryNameList = {"Shirts", "Pants", "Jackets", "Shoes"};
     final int[] categoryImages = {R.drawable.shirt, R.drawable.pants, R.drawable.jacket, R.drawable.shoes};
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +23,8 @@ public class CategoryListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category_list);
         recyclerView = findViewById(R.id.categoryList);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        Adapter = new CategoryListAdapter(this, categoryNameList, categoryImages);
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new CategoryListAdapter(this, categoryNameList, categoryImages);
+        recyclerView.setAdapter(adapter);
     }
 }

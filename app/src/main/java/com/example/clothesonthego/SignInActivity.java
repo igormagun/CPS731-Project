@@ -33,7 +33,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
         if(user != null) {
-            Intent intent = new Intent(getApplicationContext(), Profile.class);
+            Intent intent = new Intent(this, CategoryListActivity.class);
             startActivity(intent);
         }
     }
@@ -97,7 +97,7 @@ public class SignInActivity extends AppCompatActivity {
                         String userId = user.getUid();
                         controller.createCart(userId);
 
-                        Intent intent = new Intent(getApplicationContext(), Profile.class);
+                        Intent intent = new Intent(this, CategoryListActivity.class);
                         startActivity(intent);
                     } else {
                         Toast.makeText(SignInActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
