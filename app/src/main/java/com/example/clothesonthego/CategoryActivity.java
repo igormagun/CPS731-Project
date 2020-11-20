@@ -23,12 +23,11 @@ public class CategoryActivity extends AppCompatActivity {
 
         // Get the list of products passed in from CategoryListActivity
         Bundle intentExtras = getIntent().getExtras();
-        ArrayList<Product> products;
+        ArrayList<Product> products = new ArrayList<>();
         if (intentExtras != null) {
-            products = (ArrayList<Product>) intentExtras.get("products");
-        }
-        else {
-            products = new ArrayList<>();
+            String category = intentExtras.getString("category");
+            DBController controller = new DBController();
+            products.addAll(controller.loadCategory(category));
         }
 
         CategoryAdapter adapter = new CategoryAdapter(this, products);

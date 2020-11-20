@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * A controller to interact with the Firestore database
  */
+// TODO: Modify controller to wait for the get() task before returning results
 public class DBController {
     /**
      * Loads all products from Firestore

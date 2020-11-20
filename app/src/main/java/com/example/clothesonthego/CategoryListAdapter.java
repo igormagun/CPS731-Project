@@ -11,8 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
 /**
  * An adapter for the CategoryListActivity's RecyclerView
  */
@@ -47,11 +45,9 @@ public class CategoryListAdapter
         @Override
         public void onClick(View view) {
             // Get the products for a corresponding category and launch that category screen
-            DBController controller = new DBController();
-            ArrayList<Product> products = controller.loadCategory(
-                    categoryNameList[getLayoutPosition()]);
+            String category = categoryNameList[getLayoutPosition()];
             Intent categoryIntent = new Intent(context, CategoryActivity.class);
-            categoryIntent.putExtra("products", products);
+            categoryIntent.putExtra("category", category);
             context.startActivity(categoryIntent);
         }
     }
