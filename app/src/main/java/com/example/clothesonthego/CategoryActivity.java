@@ -12,23 +12,18 @@ import java.util.ArrayList;
  * An activity displaying all the products in a given category
  */
 public class CategoryActivity extends AppCompatActivity {
-    private ArrayList<Product> products;
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-    private CategoryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
-        recyclerView = findViewById(R.id.productList);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        RecyclerView recyclerView = findViewById(R.id.productList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Get the list of products passed in from CategoryListActivity
         Bundle intentExtras = getIntent().getExtras();
+        ArrayList<Product> products;
         if (intentExtras != null) {
             products = (ArrayList<Product>) intentExtras.get("products");
         }
@@ -36,6 +31,7 @@ public class CategoryActivity extends AppCompatActivity {
             products = new ArrayList<>();
         }
 
-        adapter = new CategoryAdapter(this, products);
+        CategoryAdapter adapter = new CategoryAdapter(this, products);
+        recyclerView.setAdapter(adapter);
     }
 }

@@ -30,9 +30,9 @@ public class DBController {
                                     document.getId(),
                                     (String) document.get("product_type"),
                                     (String) document.get("name"),
-                                    (int) document.get("quantity"),
+                                    (long) document.get("quantity"),
                                     (String) document.get("photo_url"),
-                                    (float) document.get("price")
+                                    (double) document.get("price")
                             );
                             if (categories.containsKey(document.get("product_type"))) {
                                 ProductCategory category = categories.get(
@@ -71,9 +71,9 @@ public class DBController {
                             document.getId(),
                             (String) document.get("product_type"),
                             (String) document.get("name"),
-                            (int) document.get("quantity"),
+                            (long) document.get("quantity"),
                             (String) document.get("photo_url"),
-                            (float) document.get("price")
+                            (double) document.get("price")
                     );
                     products.add(newProduct);
                 }
@@ -98,7 +98,7 @@ public class DBController {
                             Shipping newShipping = new Shipping(
                                     document.getId(),
                                     (String) document.get("city"),
-                                    (float) document.get("cost")
+                                    (double) document.get("cost")
                             );
                             shippingList.add(newShipping);
                         }
@@ -142,8 +142,8 @@ public class DBController {
                     if (task.isSuccessful()) {
                         Map<String, Object> result = task.getResult().getData();
                         if (result.containsKey(productId)) {
-                            Integer currentQuantity = (Integer) result.get(productId);
-                            Integer newQuantity = currentQuantity + quantity;
+                            Long currentQuantity = (Long) result.get(productId);
+                            Long newQuantity = currentQuantity + quantity;
                             result.put(productId, newQuantity);
 
                             db.collection("carts").document(userId).set(result);

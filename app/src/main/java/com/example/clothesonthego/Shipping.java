@@ -6,7 +6,7 @@ package com.example.clothesonthego;
 public class Shipping {
     private final String id;
     private final String city;
-    private final float cost;
+    private final double cost;
 
     /**
      * Initialize a Shipping object
@@ -14,7 +14,7 @@ public class Shipping {
      * @param city The city name
      * @param cost The cost of shipping
      */
-    public Shipping(String id, String city, float cost) {
+    public Shipping(String id, String city, double cost) {
         this.id = id;
         this.city = city;
         this.cost = cost;
@@ -32,7 +32,7 @@ public class Shipping {
      * Return the most up-to-date cost available
      * @return The cost
      */
-    public float getCost() {
+    public double getCost() {
         return this.cost;
     }
 }

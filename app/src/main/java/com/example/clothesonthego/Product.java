@@ -7,9 +7,9 @@ public class Product {
     private final String id;
     private final String type;
     private final String name;
-    private int quantity;
+    private long quantity;
     private final String photoUrl;
-    private final float price;
+    private final double price;
     // TODO: Implement description
 
     /**
@@ -21,7 +21,7 @@ public class Product {
      * @param photoUrl The URL to the product photo
      * @param price The product price
      */
-    public Product(String id, String type, String name, int quantity, String photoUrl, float price) {
+    public Product(String id, String type, String name, long quantity, String photoUrl, double price) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -58,7 +58,7 @@ public class Product {
      * Get the product quantity
      * @return The product quantity
      */
-    public int getQuantity() {
+    public long getQuantity() {
         return this.quantity;
     }
 
@@ -74,7 +74,7 @@ public class Product {
      * Get the product price
      * @return The product price
      */
-    public float getPrice() {
+    public double getPrice() {
         return this.price;
     }
 
@@ -82,7 +82,7 @@ public class Product {
      * Set the product quantity
      * @param q The new quantity to set
      */
-    public void setQuantity (int q) {
+    public void setQuantity (long q) {
         this.quantity = q;
     }
 }
