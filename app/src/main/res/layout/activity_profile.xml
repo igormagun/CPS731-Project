@@ -10,11 +10,4 @@
         android:id="@+id/toolbar"
         layout="@layout/activity_toolbar"/>
 
-    <Button
-        android:id="@+id/LogoutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        tools:layout_editor_absoluteX="154dp"
-        tools:layout_editor_absoluteY="384dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

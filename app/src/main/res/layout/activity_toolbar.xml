@@ -7,4 +7,10 @@
     android:elevation="4dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+    <Button
+        android:id="@+id/LogoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Logout"/>
+
 </androidx.appcompat.widget.Toolbar>
