@@ -2,7 +2,9 @@ package com.example.clothesonthego;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +26,8 @@ public class ProductActivity extends AppCompatActivity {
 
     TextView name;
     TextView description;
+
+    Button logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,14 @@ public class ProductActivity extends AppCompatActivity {
         findViewById(R.id.addToCart).setOnClickListener(v ->
                 controller.addToCart(mAuth.getUid(), productId, Integer.parseInt(
                         findViewById(R.id.ProductQuantity).toString())));
+
+        logout = findViewById(R.id.LogoutButtonProduct);
+
+        logout.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+            startActivity(intent);
+        });
     }
 
 
