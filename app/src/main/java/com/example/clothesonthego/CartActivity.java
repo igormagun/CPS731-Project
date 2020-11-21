@@ -13,7 +13,8 @@ import java.util.HashMap;
  */
 public class CartActivity extends AppCompatActivity {
 
-    ArrayList<Shipping> shipping = new ArrayList<>();
+    private Cart cart;
+    private ArrayList<Shipping> shipping = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,16 +22,11 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
 
         // Create a cart object - this will read the cart from Firebase
-        Cart cart = new Cart(this);
+        cart = new Cart(this);
 
         // Start loading the shipping costs from the database
         DBController controller = new DBController();
         controller.loadShipping(this);
-
-        // Get the destination and products from the cart
-        // Note that destination returns null if no destination has been set by the user
-        String destination = cart.getDestination();
-        HashMap<String, Integer> products = cart.getProducts();
 
         // TODO: Determine how best to display the data in the UI, implement accordingly
     }
@@ -41,5 +37,14 @@ public class CartActivity extends AppCompatActivity {
      */
     public void setShipping(ArrayList<Shipping> shipping) {
         this.shipping = shipping;
+    }
+
+    /**
+     * Get the destination and products from the cart
+     * This is called by our Cart object once contents are loaded from Firestore
+     */
+    public void setCartContents() {
+        String destination = cart.getDestination();
+        HashMap<String, Integer> products = cart.getProducts();
     }
 }

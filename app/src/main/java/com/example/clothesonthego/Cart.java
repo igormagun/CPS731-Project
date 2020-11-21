@@ -44,7 +44,8 @@ public class Cart {
                 products.put(key, (Integer) cartMap.get(key));
             }
         }
-        // TODO: Implement a function in CartActivity that we can call here to update the view
+        // Update the CartActivity now that everything is loaded
+        activity.setCartContents();
     }
 
     /**
