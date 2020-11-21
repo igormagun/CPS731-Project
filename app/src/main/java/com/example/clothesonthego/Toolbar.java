@@ -1,21 +1,22 @@
 package com.example.clothesonthego;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Toolbar extends Activity {
-    Button logout;
+public class Toolbar extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_toolbar);
 
-        logout = findViewById(R.id.LogoutButton);
+        // TODO: Implement as MenuItem to fix this button not working
+        View logout = findViewById(R.id.logout_button);
 
         logout.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();

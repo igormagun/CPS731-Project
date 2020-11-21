@@ -24,7 +24,7 @@ public class Profile extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        logout = findViewById(R.id.LogoutButton);
+        logout = findViewById(R.id.logout_button);
 
         logout.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
