@@ -57,10 +57,10 @@ public class DBController {
 
     /**
      * Loads all products from Firestore for a given category
+     * @param categoryActivity The activity where the products will be displayed
      * @param category The category name
-     * @return An ArrayList of all products in that category
      */
-    public ArrayList<Product> loadCategory(String category) {
+    public void loadCategory(CategoryActivity categoryActivity, String category) {
         ArrayList<Product> products = new ArrayList<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -78,10 +78,10 @@ public class DBController {
                     );
                     products.add(newProduct);
                 }
+                // Returns the retrieved products to the CategoryActivity for display
+                categoryActivity.setProducts(products);
             }
         });
-
-        return products;
     }
 
     /**
