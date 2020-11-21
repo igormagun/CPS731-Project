@@ -21,22 +21,19 @@
         android:id="@+id/locationHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="29dp"
-        android:layout_marginEnd="176dp"
-        android:layout_marginBottom="27dp"
         android:fontFamily="sans-serif-black"
         android:text="Shipping Location"
         android:textSize="26sp" />
+
+    <Spinner
+        android:id="@+id/destinationSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/totalPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="276dp"
-        android:layout_marginBottom="125dp"
         android:fontFamily="sans-serif-black"
         android:text="TotalPrice"
         android:textSize="26sp" />

@@ -103,8 +103,6 @@ public class Cart {
             products.put(productId, quantity);
         }
         controller.addToCart(mAuth.getUid(), productId, quantity);
-        // Reload the cart
-        controller.loadCart(this, mAuth.getUid());
     }
 
     /**

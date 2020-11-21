@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -45,6 +47,22 @@ public class CartActivity extends AppCompatActivity {
      */
     public void setShipping(ArrayList<Shipping> shipping) {
         this.shipping = shipping;
+        ArrayList<String> destinations = new ArrayList<>();
+        // Add a "Select destination" entry to default to
+        destinations.add("Select destination");
+
+        // Add destinations and their prices to the dropdown
+        for (Shipping dest : shipping) {
+            destinations.add(dest.getCity() + " - $" + dest.getCost());
+        }
+
+        // Load data into spinner
+        Spinner destinationSpinner = findViewById(R.id.destinationSpinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, destinations);
+        destinationSpinner.setAdapter(adapter);
+
+        // TODO: Add listener to look for selected item, preselect item if destination is set
     }
 
     /**
