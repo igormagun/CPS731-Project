@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/placeholder" />
 
     <TextView
-        android:id="@+id/ProductName"
+        android:id="@+id/locationHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"

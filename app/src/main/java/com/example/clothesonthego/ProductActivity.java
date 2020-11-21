@@ -30,7 +30,7 @@ public class ProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
-        name = findViewById(R.id.ProductName);
+        name = findViewById(R.id.locationHeader);
         description = findViewById(R.id.ProductDescription);
 
         // Get the product details to display
