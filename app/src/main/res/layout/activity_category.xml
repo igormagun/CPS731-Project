@@ -7,6 +7,10 @@
     android:orientation="vertical"
     tools:context=".CategoryActivity">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/activity_toolbar"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productList"
         android:layout_width="match_parent"

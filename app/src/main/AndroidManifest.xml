@@ -8,7 +8,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ClothesOnTheGo">
+        android:theme="@style/Theme.ClothesOnTheGo.NoActionBar">
+        <activity
+            android:name=".Toolbar"
+            android:label="@string/title_activity_toolbar"
+            android:theme="@style/Theme.ClothesOnTheGo.NoActionBar"></activity>
         <activity android:name=".Profile" />
         <activity android:name=".CategoryActivity" />
         <activity
