@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * A class representing the user's cart
  */
 public class Cart {
-    private final HashMap<String, Integer> products = new HashMap<>();
+    private final HashMap<String, Long> products = new HashMap<>();
     private String destination = null;
     private static final String DEST_KEY = "destination";
     private final FirebaseAuth mAuth;
@@ -41,7 +41,7 @@ public class Cart {
                 destination = (String) cartMap.get(DEST_KEY);
             }
             else {
-                products.put(key, (Integer) cartMap.get(key));
+                products.put(key, (Long) cartMap.get(key));
             }
         }
         // Update the CartActivity now that everything is loaded
@@ -69,7 +69,7 @@ public class Cart {
      * Get the products in the cart
      * @return A HashMap of Product IDs and their corresponding quantities
      */
-    public HashMap<String, Integer> getProducts() {
+    public HashMap<String, Long> getProducts() {
         return this.products;
     }
 
@@ -78,10 +78,10 @@ public class Cart {
      * @param productId The product ID for the item
      * @param quantity The quantity to be added
      */
-    public void addToCart(String productId, int quantity) {
+    public void addToCart(String productId, long quantity) {
         // If the item is already in the cart, we increment its quantity in the cart
         if (products.containsKey(productId)) {
-            int currentValue = products.get(productId);
+            long currentValue = products.get(productId);
             products.put(productId, currentValue + quantity);
         }
         // If the item is not in the cart, add it
@@ -96,7 +96,7 @@ public class Cart {
      * @param productId The product ID for the item
      * @param quantity The new quantity
      */
-    public void modifyQuantity(String productId, int quantity) {
+    public void modifyQuantity(String productId, long quantity) {
         products.put(productId, quantity);
         controller.modifyCartQuantity(mAuth.getUid(), productId, quantity);
     }

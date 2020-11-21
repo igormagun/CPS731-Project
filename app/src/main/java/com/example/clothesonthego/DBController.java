@@ -133,7 +133,7 @@ public class DBController {
      * @param productId The product ID
      * @param quantity The quantity of the product
      */
-    public void addToCart(String userId, String productId, int quantity) {
+    public void addToCart(String userId, String productId, long quantity) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("carts").document(userId).get().addOnCompleteListener(
@@ -158,7 +158,7 @@ public class DBController {
      * @param productId The product ID to modify
      * @param newQuantity The new quantity
      */
-    public void modifyCartQuantity(String userId, String productId, int newQuantity) {
+    public void modifyCartQuantity(String userId, String productId, long newQuantity) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("carts").document(userId).get().addOnCompleteListener(

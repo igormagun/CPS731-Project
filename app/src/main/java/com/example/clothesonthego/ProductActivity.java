@@ -2,6 +2,7 @@ package com.example.clothesonthego;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,7 +21,7 @@ public class ProductActivity extends AppCompatActivity {
     String productName;
     String productDescription;
     String photoUrl;
-    Float price;
+    double price;
 
     TextView name;
     TextView description;
@@ -40,7 +41,7 @@ public class ProductActivity extends AppCompatActivity {
             productName = extras.getString("productName");
             photoUrl = extras.getString("photoUrl");
             productDescription = extras.getString("description");
-            price = extras.getFloat("price");
+            price = extras.getDouble("price");
 
             // TODO: Display price, implement description
             name.setText(productName);
@@ -57,6 +58,10 @@ public class ProductActivity extends AppCompatActivity {
         findViewById(R.id.addToCart).setOnClickListener(v ->
                 controller.addToCart(mAuth.getUid(), productId, Integer.parseInt(
                         findViewById(R.id.ProductQuantity).toString())));
+
+        // Set a listener for the Cart button
+        findViewById(R.id.viewCart).setOnClickListener(v -> this.startActivity(
+                new Intent(this, CartActivity.class)));
     }
 
 
