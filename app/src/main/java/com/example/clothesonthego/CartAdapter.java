@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -24,11 +25,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private final Context context;
     private final LayoutInflater inflater;
     private HashMap<String, Long> products;
+    private ArrayList<Product> productDetails;
 
-    public CartAdapter(Context context, HashMap<String, Long> products) {
+    public CartAdapter(Context context, HashMap<String, Long> products,
+                       ArrayList<Product> productDetails) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         this.products = products;
+        this.productDetails = productDetails;
     }
 
     public static class CartViewHolder extends RecyclerView.ViewHolder {
@@ -53,8 +57,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         // TODO: Implement a way of pulling the corresponding product name and image
-        String productID = (String) products.keySet().toArray()[position];
-        holder.rowName.setText(productID);
+        Product product =productDetails.get(position);
+        String productName = product.getName();
+        holder.rowName.setText(productName);
+        Glide.with(context).load(product.getPhotoUrl()).into(holder.rowImage);
     }
 
     @Override

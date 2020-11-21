@@ -2,6 +2,8 @@ package com.example.clothesonthego;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -11,6 +13,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class Cart {
     private final HashMap<String, Long> products = new HashMap<>();
+    private ArrayList<Product> productDetails = new ArrayList<>();
     private String destination = null;
     private static final String DEST_KEY = "destination";
     private final FirebaseAuth mAuth;
@@ -33,7 +36,8 @@ public class Cart {
      * Set up the cart using the retrieved cart document from Firestore
      * @param cart The cart document from Firestore
      */
-    public void setupCart(AtomicReference<Map<String, Object>> cart) {
+    public void setupCart(AtomicReference<Map<String, Object>> cart,
+                          ArrayList<Product> products) {
         Map<String, Object> cartMap = cart.get();
 
         for (String key : cartMap.keySet()) {
@@ -41,9 +45,11 @@ public class Cart {
                 destination = (String) cartMap.get(DEST_KEY);
             }
             else {
-                products.put(key, (Long) cartMap.get(key));
+                this.products.put(key, (Long) cartMap.get(key));
             }
         }
+
+        productDetails = products;
         // Update the CartActivity now that everything is loaded
         activity.setCartContents();
     }
@@ -74,6 +80,14 @@ public class Cart {
     }
 
     /**
+     * Get the product details for the cart
+     * @return A HashMap of Product IDs and their corresponding Product objects
+     */
+    public ArrayList<Product> getProductDetails() {
+        return this.productDetails;
+    }
+
+    /**
      * Add an item to the cart
      * @param productId The product ID for the item
      * @param quantity The quantity to be added
@@ -89,6 +103,8 @@ public class Cart {
             products.put(productId, quantity);
         }
         controller.addToCart(mAuth.getUid(), productId, quantity);
+        // Reload the cart
+        controller.loadCart(this, mAuth.getUid());
     }
 
     /**
@@ -97,8 +113,14 @@ public class Cart {
      * @param quantity The new quantity
      */
     public void modifyQuantity(String productId, long quantity) {
-        products.put(productId, quantity);
-        controller.modifyCartQuantity(mAuth.getUid(), productId, quantity);
+        if (quantity == 0) {
+            removeFromCart(productId);
+        }
+        else {
+            products.put(productId, quantity);
+            controller.modifyCartQuantity(mAuth.getUid(), productId, quantity);
+        }
+        activity.setCartContents();
     }
 
     /**
@@ -107,6 +129,13 @@ public class Cart {
      */
     public void removeFromCart(String productId) {
         products.remove(productId);
+        for (int i = 0; i < productDetails.size(); i++) {
+            if (productDetails.get(i).getId().equals(productId)) {
+                productDetails.remove(i);
+                break;
+            }
+        }
         controller.removeFromCart(mAuth.getUid(), productId);
+        activity.setCartContents();
     }
 }

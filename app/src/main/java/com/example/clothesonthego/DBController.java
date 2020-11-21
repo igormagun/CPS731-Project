@@ -1,10 +1,13 @@
 package com.example.clothesonthego;
 
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -116,12 +119,34 @@ public class DBController {
     public void loadCart(Cart cart, String userId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         AtomicReference<Map<String, Object>> result = new AtomicReference<>();
+        ArrayList<Product> products = new ArrayList<>();
 
         db.collection("carts").document(userId).get().addOnCompleteListener(
                 task -> {
                     if (task.isSuccessful()) {
                         result.set(task.getResult().getData());
-                        cart.setupCart(result);
+
+                        // Get product details for the cart once loaded
+                        db.collection("products").whereIn(FieldPath.documentId(),
+                                Arrays.asList(result.get().keySet().toArray()))
+                                .get().addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task1.getResult()) {
+                                            Product newProduct = new Product(
+                                                    document.getId(),
+                                                    (String) document.get("product_type"),
+                                                    (String) document.get("name"),
+                                                    (long) document.get("quantity"),
+                                                    (String) document.get("photo_url"),
+                                                    (double) document.get("price")
+                                            );
+                                            products.add(newProduct);
+                                        }
+                                        // Send results to Cart object
+                                        cart.setupCart(result, products);
+                                    }
+                                }
+                        );
                     }
                 }
         );

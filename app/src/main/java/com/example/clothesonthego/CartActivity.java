@@ -50,8 +50,9 @@ public class CartActivity extends AppCompatActivity {
     public void setCartContents() {
         String destination = cart.getDestination();
         HashMap<String, Long> products = cart.getProducts();
+        ArrayList<Product> productDetails = cart.getProductDetails();
 
-        CartAdapter adapter = new CartAdapter(this, products);
+        CartAdapter adapter = new CartAdapter(this, products, productDetails);
         recyclerView.setAdapter(adapter);
 
         // TODO: If not null, display the destination and the shipping cost for it
