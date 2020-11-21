@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +26,8 @@ public class ProductActivity extends AppCompatActivity {
 
     TextView name;
     TextView description;
+
+    Button logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,14 @@ public class ProductActivity extends AppCompatActivity {
         // Set a listener for the Cart button
         findViewById(R.id.viewCart).setOnClickListener(v -> this.startActivity(
                 new Intent(this, CartActivity.class)));
+
+        logout = findViewById(R.id.LogoutButtonProduct);
+
+        logout.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+            startActivity(intent);
+        });
     }
 
 
