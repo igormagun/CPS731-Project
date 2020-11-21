@@ -85,10 +85,9 @@ public class DBController {
     }
 
     /**
-     * Loads all shipping costs from Firestore
-     * @return An ArrayList of all shipping costs
+     * Loads all shipping costs from Firestore, returns them to the requesting CartActivity
      */
-    public ArrayList<Shipping> loadShipping() {
+    public void loadShipping(CartActivity activity) {
         ArrayList<Shipping> shippingList = new ArrayList<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -103,30 +102,29 @@ public class DBController {
                             );
                             shippingList.add(newShipping);
                         }
+                        // Return the list once the query is complete
+                        activity.setShipping(shippingList);
                     }
                 });
-
-        return shippingList;
     }
 
     /**
      * Load cart contents for the specified user from Firestore
+     * @param cart The Cart object to return results to
      * @param userId The user's ID
-     * @return The cart contents, as a HashMap
      */
-    public AtomicReference<Map<String, Object>> loadCart(String userId) {
+    public void loadCart(Cart cart, String userId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        AtomicReference<Map<String, Object>> result = null;
+        AtomicReference<Map<String, Object>> result = new AtomicReference<>();
 
         db.collection("carts").document(userId).get().addOnCompleteListener(
                 task -> {
                     if (task.isSuccessful()) {
                         result.set(task.getResult().getData());
+                        cart.setupCart(result);
                     }
                 }
         );
-
-        return result;
     }
 
     /**

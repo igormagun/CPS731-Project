@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -11,6 +13,7 @@ import java.util.HashMap;
  */
 public class CartActivity extends AppCompatActivity {
 
+    ArrayList<Shipping> shipping = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +21,11 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
 
         // Create a cart object - this will read the cart from Firebase
-        Cart cart = new Cart();
+        Cart cart = new Cart(this);
+
+        // Start loading the shipping costs from the database
+        DBController controller = new DBController();
+        controller.loadShipping(this);
 
         // Get the destination and products from the cart
         // Note that destination returns null if no destination has been set by the user
@@ -26,5 +33,13 @@ public class CartActivity extends AppCompatActivity {
         HashMap<String, Integer> products = cart.getProducts();
 
         // TODO: Determine how best to display the data in the UI, implement accordingly
+    }
+
+    /**
+     * Sets the list of shipping costs to be used
+     * @param shipping The list of shipping costs
+     */
+    public void setShipping(ArrayList<Shipping> shipping) {
+        this.shipping = shipping;
     }
 }

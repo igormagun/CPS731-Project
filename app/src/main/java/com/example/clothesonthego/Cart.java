@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * A class representing the user's cart
@@ -14,24 +15,36 @@ public class Cart {
     private static final String DEST_KEY = "destination";
     private final FirebaseAuth mAuth;
     private final DBController controller;
+    private final CartActivity activity;
 
     /**
      * A constructor for the cart, which will read any existing cart contents from Firestore
      */
-    public Cart() {
+    public Cart(CartActivity activity) {
+        this.activity = activity;
         mAuth = FirebaseAuth.getInstance();
         controller = new DBController();
 
-        // Read all contents from cart
-        for (Map.Entry<String,Object> cartEntry : controller.loadCart(mAuth.getUid()).get()
-                .entrySet()) {
-            if (cartEntry.getKey().equals(DEST_KEY)) {
-                destination = (String) cartEntry.getValue();
+        // Read all contents from cart - the DBController will call setupCart() once done
+        controller.loadCart(this, mAuth.getUid());
+    }
+
+    /**
+     * Set up the cart using the retrieved cart document from Firestore
+     * @param cart The cart document from Firestore
+     */
+    public void setupCart(AtomicReference<Map<String, Object>> cart) {
+        Map<String, Object> cartMap = cart.get();
+
+        for (String key : cartMap.keySet()) {
+            if (key.equals(DEST_KEY)) {
+                destination = (String) cartMap.get(DEST_KEY);
             }
             else {
-                products.put(cartEntry.getKey(), (Integer) cartEntry.getValue());
+                products.put(key, (Integer) cartMap.get(key));
             }
         }
+        // TODO: Implement a function in CartActivity that we can call here to update the view
     }
 
     /**
