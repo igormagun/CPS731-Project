@@ -236,6 +236,24 @@ public class DBController {
     }
 
     /**
+     * Remove the order destination from a user's cart
+     * @param userId The user's ID
+     */
+    public void removeDestination(String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("carts").document(userId).get().addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
+                        Map<String, Object> result = task.getResult().getData();
+                        result.remove("destination");
+                        db.collection("carts").document(userId).set(result);
+                    }
+                }
+        );
+    }
+
+    /**
      * Create a cart for the specified user ID, if it does not already exist
      * @param userId The user ID
      */

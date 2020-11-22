@@ -60,7 +60,12 @@ public class Cart {
      */
     public void setDestination(String destination) {
         this.destination = destination;
-        controller.setDestination(mAuth.getUid(), destination);
+        if (destination == null) {
+            controller.removeDestination(mAuth.getUid());
+        }
+        else {
+            controller.setDestination(mAuth.getUid(), destination);
+        }
     }
 
     /**

@@ -6,8 +6,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -20,7 +25,10 @@ public class CartActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private Cart cart;
+    private String destination;
     private ArrayList<Shipping> shipping = new ArrayList<>();
+    private DBController controller;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +45,10 @@ public class CartActivity extends AppCompatActivity {
         cart = new Cart(this);
 
         // Start loading the shipping costs from the database
-        DBController controller = new DBController();
+        controller = new DBController();
         controller.loadShipping(this);
+
+        mAuth = FirebaseAuth.getInstance();
     }
 
     /**
@@ -53,7 +63,7 @@ public class CartActivity extends AppCompatActivity {
 
         // Add destinations and their prices to the dropdown
         for (Shipping dest : shipping) {
-            destinations.add(dest.getCity() + " - $" + dest.getCost());
+            destinations.add(dest.getCity());
         }
 
         // Load data into spinner
@@ -62,7 +72,39 @@ public class CartActivity extends AppCompatActivity {
                 this, android.R.layout.simple_spinner_item, destinations);
         destinationSpinner.setAdapter(adapter);
 
-        // TODO: Add listener to look for selected item, preselect item if destination is set
+        if (this.destination != null) {
+            int index = destinations.indexOf(this.destination);
+            // We add 1 to the index to account for the "Select destination" entry
+            destinationSpinner.setSelection(index + 1);
+
+            TextView shippingCost = findViewById(R.id.shippingCost);
+            String shippingString = getString(R.string.shipping_cost, shipping.get(index).getCost());
+            shippingCost.setText(shippingString);
+        }
+
+        destinationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                TextView shippingCost = findViewById(R.id.shippingCost);
+
+                // If the position is 0, the user is unselecting a destination
+                if (position == 0) {
+                    cart.setDestination(null);
+                    shippingCost.setText("");
+                }
+                else {
+                    // Decrement the position by 1 to account for the "Select destination" entry
+                    Shipping newDestination = shipping.get(position - 1);
+                    cart.setDestination(newDestination.getCity());
+                    String shippingString = getString(R.string.shipping_cost,
+                            shipping.get(position - 1).getCost());
+                    shippingCost.setText(shippingString);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
     }
 
     /**
@@ -70,7 +112,7 @@ public class CartActivity extends AppCompatActivity {
      * This is called by our Cart object once contents are loaded from Firestore
      */
     public void setCartContents() {
-        String destination = cart.getDestination();
+        destination = cart.getDestination();
         HashMap<String, Long> products = cart.getProducts();
         ArrayList<Product> productDetails = cart.getProductDetails();
 
