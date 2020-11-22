@@ -30,12 +30,14 @@ public class CartActivity extends AppCompatActivity {
     private String destination;
     private ArrayList<Shipping> shipping = new ArrayList<>();
     private double totalPrice = 0;
+    private TextView total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
+        total = findViewById(R.id.totalCost);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -109,9 +111,16 @@ public class CartActivity extends AppCompatActivity {
                     shipping.get(index - 1).getCost());
             shippingCost.setText(shippingString);
 
-            // Add shipping cost to the total price
-            totalPrice += shipping.get(index - 1).getCost();
+            // Get total price including shipping
+            totalPrice(shipping.get(index - 1).getCost());
         }
+        // If no destination is set, calculate total price without shipping
+        else {
+            totalPrice(0);
+        }
+
+        // Display total price
+        total.setText(getString(R.string.dollar_amount, totalPrice));
 
         // Add a listener to change the user's destination when a new one is selected
         destinationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -123,6 +132,7 @@ public class CartActivity extends AppCompatActivity {
                 if (position == 0) {
                     cart.setDestination(null);
                     shippingCost.setText("");
+                    totalPrice(0);
                 }
                 else {
                     // Decrement the position by 1 to account for the "Select destination" entry
@@ -131,19 +141,28 @@ public class CartActivity extends AppCompatActivity {
                     String shippingString = getString(R.string.shipping_cost,
                             shipping.get(position - 1).getCost());
                     shippingCost.setText(shippingString);
+                    totalPrice(shipping.get(position - 1).getCost());
                 }
+                total.setText(getString(R.string.dollar_amount, totalPrice));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
         });
 
-        // Calculate and display total price
+    }
+
+    /**
+     * Calculate the total price of items in the cart, plus shipping, currently
+     */
+    public void totalPrice(double shippingCost) {
+        totalPrice = shippingCost;
+        ArrayList<Product> productDetails = cart.getProductDetails();
+        HashMap<String, Long> products = cart.getProducts();
+
         for (Product product : productDetails) {
             totalPrice += product.getPrice() * products.get(product.getId());
         }
-        TextView total = findViewById(R.id.totalCost);
-        total.setText(getString(R.string.dollar_amount, totalPrice));
     }
 
 }
