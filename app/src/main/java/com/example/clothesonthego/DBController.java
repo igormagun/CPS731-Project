@@ -2,6 +2,7 @@ package com.example.clothesonthego;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldPath;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -109,16 +110,9 @@ public class DBController {
      */
     public void addToCart(String userId, String productId, long quantity) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("carts").document(userId).get().addOnCompleteListener(
-                task -> {
-                    if (task.isSuccessful()) {
-                        Map<String, Object> result = task.getResult().getData();
-                        result.put(productId, quantity);
-                        db.collection("carts").document(userId).set(result);
-                    }
-                }
-        );
+        HashMap<String, Object> newEntry = new HashMap<>();
+        newEntry.put(productId, quantity);
+        db.collection("carts").document(userId).update(newEntry);
     }
 
     /**
@@ -128,16 +122,9 @@ public class DBController {
      */
     public void removeFromCart(String userId, String productId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("carts").document(userId).get().addOnCompleteListener(
-                task -> {
-                    if (task.isSuccessful()) {
-                        Map<String, Object> result = task.getResult().getData();
-                        result.remove(productId);
-                        db.collection("carts").document(userId).set(result);
-                    }
-                }
-        );
+        HashMap<String, Object> entryToDelete = new HashMap<>();
+        entryToDelete.put(productId, FieldValue.delete());
+        db.collection("carts").document(userId).update(entryToDelete);
     }
 
     /**
@@ -147,16 +134,9 @@ public class DBController {
      */
     public void setDestination(String userId, String destination) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("carts").document(userId).get().addOnCompleteListener(
-                task -> {
-                    if (task.isSuccessful()) {
-                        Map<String, Object> result = task.getResult().getData();
-                        result.put("destination", destination);
-                        db.collection("carts").document(userId).set(result);
-                    }
-                }
-        );
+        HashMap<String, Object> newDestination = new HashMap<>();
+        newDestination.put("destination", destination);
+        db.collection("carts").document(userId).update(newDestination);
     }
 
     /**
@@ -165,16 +145,9 @@ public class DBController {
      */
     public void removeDestination(String userId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("carts").document(userId).get().addOnCompleteListener(
-                task -> {
-                    if (task.isSuccessful()) {
-                        Map<String, Object> result = task.getResult().getData();
-                        result.remove("destination");
-                        db.collection("carts").document(userId).set(result);
-                    }
-                }
-        );
+        HashMap<String, Object> deleteDestination = new HashMap<>();
+        deleteDestination.put("destination", FieldValue.delete());
+        db.collection("carts").document(userId).update(deleteDestination);
     }
 
     /**
