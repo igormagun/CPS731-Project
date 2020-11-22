@@ -7,9 +7,4 @@
     android:elevation="4dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    <include
-        android:id="@+id/logout_button"
-        layout="@menu/menu"/>
-
-
 </androidx.appcompat.widget.Toolbar>

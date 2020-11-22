@@ -17,24 +17,6 @@ public class Toolbar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_toolbar);
 
-        // TODO: Implement as MenuItem to fix this button not working
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.logout_button) {
-            FirebaseAuth.getInstance().signOut();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        // TODO: Implement MenuItem for logout and cart
     }
 }
