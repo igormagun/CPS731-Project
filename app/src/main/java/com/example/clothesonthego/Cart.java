@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Cart {
     private final HashMap<String, Long> products = new HashMap<>();
     private ArrayList<Product> productDetails = new ArrayList<>();
+    private ArrayList<Shipping> shippingList = new ArrayList<>();
     private String destination = null;
     private static final String DEST_KEY = "destination";
     private final FirebaseAuth mAuth;
@@ -36,7 +37,7 @@ public class Cart {
      * @param cart The cart document from Firestore
      */
     public void setupCart(AtomicReference<Map<String, Object>> cart,
-                          ArrayList<Product> products) {
+                          ArrayList<Product> products, ArrayList<Shipping> shippingList) {
         Map<String, Object> cartMap = cart.get();
 
         for (String key : cartMap.keySet()) {
@@ -49,6 +50,7 @@ public class Cart {
         }
 
         productDetails = products;
+        this.shippingList = shippingList;
         // Update the CartActivity now that everything is loaded
         activity.setCartContents();
     }
@@ -89,6 +91,14 @@ public class Cart {
      */
     public ArrayList<Product> getProductDetails() {
         return this.productDetails;
+    }
+
+    /**
+     * Get the list of shipping destinations and costs
+     * @return An ArrayList of Shipping objects
+     */
+    public ArrayList<Shipping> getShippingList() {
+        return this.shippingList;
     }
 
     /**

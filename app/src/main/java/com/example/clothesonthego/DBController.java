@@ -45,29 +45,6 @@ public class DBController {
     }
 
     /**
-     * Loads all shipping costs from Firestore, returns them to the requesting CartActivity
-     */
-    public void loadShipping(CartActivity activity) {
-        ArrayList<Shipping> shippingList = new ArrayList<>();
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("shipping").get().addOnCompleteListener(
-                task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Shipping newShipping = new Shipping(
-                                    (String) document.get("city"),
-                                    (double) document.get("cost")
-                            );
-                            shippingList.add(newShipping);
-                        }
-                        // Return the list once the query is complete
-                        activity.setShipping(shippingList);
-                    }
-                });
-    }
-
-    /**
      * Load cart contents for the specified user from Firestore
      * @param cart The Cart object to return results to
      * @param userId The user's ID
@@ -76,6 +53,7 @@ public class DBController {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         AtomicReference<Map<String, Object>> result = new AtomicReference<>();
         ArrayList<Product> products = new ArrayList<>();
+        ArrayList<Shipping> shippingList = new ArrayList<>();
 
         db.collection("carts").document(userId).get().addOnCompleteListener(
                 task -> {
@@ -98,8 +76,22 @@ public class DBController {
                                             );
                                             products.add(newProduct);
                                         }
-                                        // Send results to Cart object
-                                        cart.setupCart(result, products);
+                                        // Get the Shipping list to be displayed in the cart
+                                        db.collection("shipping").get()
+                                                .addOnCompleteListener(task2 -> {
+                                                    if (task2.isSuccessful()) {
+                                                        for (QueryDocumentSnapshot document :
+                                                                task2.getResult()) {
+                                                            Shipping newShipping = new Shipping(
+                                                                    (String) document.get("city"),
+                                                                    (double) document.get("cost")
+                                                            );
+                                                            shippingList.add(newShipping);
+                                                        }
+                                                    }
+                                                    // Send results to Cart object
+                                                    cart.setupCart(result, products, shippingList);
+                                                });
                                     }
                                 }
                         );

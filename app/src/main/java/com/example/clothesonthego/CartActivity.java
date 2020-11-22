@@ -38,40 +38,45 @@ public class CartActivity extends AppCompatActivity {
 
         // Create a cart object - this will read the cart from Firebase
         cart = new Cart(this);
-
-        // Start loading the shipping costs from the database
-        DBController controller = new DBController();
-        controller.loadShipping(this);
     }
 
     /**
-     * Sets the list of shipping costs to be used
-     * @param shipping The list of shipping costs
+     * Set up all cart contents - products, details, and destination
+     * This is called by our Cart object once contents are loaded from Firestore
      */
-    public void setShipping(ArrayList<Shipping> shipping) {
-        this.shipping = shipping;
+    public void setCartContents() {
+        destination = cart.getDestination();
+        HashMap<String, Long> products = cart.getProducts();
+        ArrayList<Product> productDetails = cart.getProductDetails();
+        this.shipping = cart.getShippingList();
+
+        CartAdapter adapter = new CartAdapter(this, products, productDetails, cart);
+        recyclerView.setAdapter(adapter);
+
         ArrayList<String> destinations = new ArrayList<>();
         // Add a "Select destination" entry to default to
         destinations.add("Select destination");
 
-        // Add destinations and their prices to the dropdown
+        // Add destinations and their prices to the dropdown menu
         for (Shipping dest : shipping) {
             destinations.add(dest.getCity());
         }
 
         // Load data into spinner
         Spinner destinationSpinner = findViewById(R.id.destinationSpinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_item, destinations);
-        destinationSpinner.setAdapter(adapter);
+        destinationSpinner.setAdapter(spinnerAdapter);
 
+        // If there is a destination set in the database, set it in the UI
         if (this.destination != null) {
             int index = destinations.indexOf(this.destination);
-            // We add 1 to the index to account for the "Select destination" entry
-            destinationSpinner.setSelection(index + 1);
+            destinationSpinner.setSelection(index);
 
             TextView shippingCost = findViewById(R.id.shippingCost);
-            String shippingString = getString(R.string.shipping_cost, shipping.get(index).getCost());
+            // The index is decremented by 1 here to account for the "Select destination" entry
+            String shippingString = getString(R.string.shipping_cost,
+                    shipping.get(index - 1).getCost());
             shippingCost.setText(shippingString);
         }
 
@@ -99,18 +104,5 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
         });
-    }
-
-    /**
-     * Get the destination and products from the cart
-     * This is called by our Cart object once contents are loaded from Firestore
-     */
-    public void setCartContents() {
-        destination = cart.getDestination();
-        HashMap<String, Long> products = cart.getProducts();
-        ArrayList<Product> productDetails = cart.getProductDetails();
-
-        CartAdapter adapter = new CartAdapter(this, products, productDetails, cart);
-        recyclerView.setAdapter(adapter);
     }
 }
