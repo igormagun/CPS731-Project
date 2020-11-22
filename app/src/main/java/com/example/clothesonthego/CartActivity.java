@@ -79,6 +79,8 @@ public class CartActivity extends AppCompatActivity {
             String shippingString = getString(R.string.shipping_cost,
                     shipping.get(index - 1).getCost());
             shippingCost.setText(shippingString);
+
+            // Add shipping cost to the total price
             totalPrice += shipping.get(index - 1).getCost();
         }
 
