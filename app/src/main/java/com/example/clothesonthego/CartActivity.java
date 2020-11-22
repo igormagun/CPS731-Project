@@ -49,7 +49,7 @@ public class CartActivity extends AppCompatActivity {
 
         Button checkout = findViewById(R.id.checkout);
         checkout.setOnClickListener(v -> {
-            if (destination == null) {
+            if (cart.getDestination() == null) {
                 Toast toast = Toast.makeText(this, R.string.no_destination,
                         Toast.LENGTH_SHORT);
                 toast.show();
