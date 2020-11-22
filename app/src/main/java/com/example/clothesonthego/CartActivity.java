@@ -112,7 +112,7 @@ public class CartActivity extends AppCompatActivity {
         HashMap<String, Long> products = cart.getProducts();
         ArrayList<Product> productDetails = cart.getProductDetails();
 
-        CartAdapter adapter = new CartAdapter(this, products, productDetails);
+        CartAdapter adapter = new CartAdapter(this, products, productDetails, cart);
         recyclerView.setAdapter(adapter);
     }
 }
