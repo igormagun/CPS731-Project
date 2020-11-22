@@ -31,7 +31,6 @@ public class DBController {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Product newProduct = new Product(
                             document.getId(),
-                            (String) document.get("product_type"),
                             (String) document.get("name"),
                             (String) document.get("photo_url"),
                             (String) document.get("description"),
@@ -69,7 +68,6 @@ public class DBController {
                                         for (QueryDocumentSnapshot document : task1.getResult()) {
                                             Product newProduct = new Product(
                                                     document.getId(),
-                                                    (String) document.get("product_type"),
                                                     (String) document.get("name"),
                                                     (String) document.get("photo_url"),
                                                     (String) document.get("description"),
@@ -103,32 +101,40 @@ public class DBController {
 
     /**
      * Add the specified item to the specified user's cart
-     * Can also be used to modify the quantity of an existing item, as this overwrites entries
+     * Can also be used to modify the quantity of an existing item
      * @param userId The user's ID
      * @param productId The product ID
      * @param quantity The quantity of the product
+     * @param overwrite Specifies if we should overwrite any existing quantity
      */
-    public void addToCart(String userId, String productId, long quantity) {
+    public void addToCart(String userId, String productId, long quantity, boolean overwrite) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         HashMap<String, Object> newEntry = new HashMap<>();
 
-        db.collection("carts").document(userId).get().addOnCompleteListener(
-                task -> {
-                    if (task.isSuccessful()) {
-                        Map<String, Object> result = task.getResult().getData();
-                        if (result.containsKey(productId)) {
-                            Long currentQuantity = (Long) result.get(productId);
-                            Long newQuantity = currentQuantity + quantity;
-                            newEntry.put(productId, newQuantity);
+        // If overwrite is true, we do not need to check if a quantity already exists
+        if (overwrite) {
+            newEntry.put(productId, quantity);
+            db.collection("carts").document(userId).update(newEntry);
+        }
+        // If we are not overwriting, we must check for an existing quantity to add to first
+        else {
+            db.collection("carts").document(userId).get().addOnCompleteListener(
+                    task -> {
+                        if (task.isSuccessful()) {
+                            Map<String, Object> result = task.getResult().getData();
+                            if (result.containsKey(productId)) {
+                                Long currentQuantity = (Long) result.get(productId);
+                                Long newQuantity = currentQuantity + quantity;
+                                newEntry.put(productId, newQuantity);
+                            }
+                            else {
+                                newEntry.put(productId, quantity);
+                            }
+                            db.collection("carts").document(userId).update(newEntry);
                         }
-                        else {
-                            newEntry.put(productId, quantity);
-                        }
-                        db.collection("carts").document(userId).update(newEntry);
                     }
-                }
-        );
-
+            );
+        }
     }
 
     /**

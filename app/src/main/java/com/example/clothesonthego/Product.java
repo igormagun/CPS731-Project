@@ -3,10 +3,8 @@ package com.example.clothesonthego;
 /**
  * A class representing an individual product
  */
-// TODO: Determine if type is still needed outside the database. If not, remove
 public class Product {
     private final String id;
-    private final String type;
     private final String name;
     private final String photoUrl;
     private final String description;
@@ -15,16 +13,14 @@ public class Product {
     /**
      * A constructor for the Product
      * @param id The product ID
-     * @param type The product category
      * @param name The product name
      * @param photoUrl The URL to the product photo
      * @param description The product description
      * @param price The product price
      */
-    public Product(String id, String type, String name, String photoUrl, String description,
+    public Product(String id, String name, String photoUrl, String description,
                    double price) {
         this.id = id;
-        this.type = type;
         this.name = name;
         this.photoUrl = photoUrl;
         this.description = description;
@@ -37,14 +33,6 @@ public class Product {
      */
     public String getId() {
         return this.id;
-    }
-
-    /**
-     * Get the product category/typ e
-     * @return The product category string
-     */
-    public String getType() {
-        return this.type;
     }
 
     /**

@@ -72,7 +72,7 @@ public class ProductActivity extends AppCompatActivity {
                     // Ensure quantity field is not empty
                     if (!qString.isEmpty()) {
                         int quantity = Integer.parseInt(qString);
-                        controller.addToCart(mAuth.getUid(), productId, quantity);
+                        controller.addToCart(mAuth.getUid(), productId, quantity, false);
                         Toast toast = Toast.makeText(this, R.string.added_to_cart,
                                 Toast.LENGTH_SHORT);
                         toast.show();

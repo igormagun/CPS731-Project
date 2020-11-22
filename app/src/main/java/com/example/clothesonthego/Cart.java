@@ -103,26 +103,6 @@ public class Cart {
     }
 
     /**
-     * Add an item to the cart
-     * @param productId The product ID for the item
-     * @param quantity The quantity to be added
-     */
-    public void addToCart(String productId, long quantity) {
-        // If the item is already in the cart, we increment its quantity in the cart
-        if (products.containsKey(productId)) {
-            long currentValue = products.get(productId);
-            products.put(productId, currentValue + quantity);
-            // addToCart will overwrite the existing entry with the new quantity
-            controller.addToCart(userID, productId, currentValue + quantity);
-        }
-        // If the item is not in the cart, add it
-        else {
-            products.put(productId, quantity);
-            controller.addToCart(userID, productId, quantity);
-        }
-    }
-
-    /**
      * Modifies the quantity of a product in the cart
      * @param productId The product ID for the item
      * @param quantity The new quantity
@@ -133,8 +113,8 @@ public class Cart {
         }
         else {
             products.put(productId, quantity);
-            // Add to cart will overwrite the existing entry with the new quantity
-            controller.addToCart(userID, productId, quantity);
+            // We overwrite any existing entry with the new quantity
+            controller.addToCart(userID, productId, quantity, true);
             activity.setCartContents();
         }
     }
