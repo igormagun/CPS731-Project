@@ -60,40 +60,61 @@ public class DBController {
                     if (task.isSuccessful()) {
                         result.set(task.getResult().getData());
 
-                        // Get product details for the cart once loaded
-                        db.collection("products").whereIn(FieldPath.documentId(),
-                                Arrays.asList(result.get().keySet().toArray()))
-                                .get().addOnCompleteListener(task1 -> {
-                                    if (task1.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task1.getResult()) {
-                                            Product newProduct = new Product(
-                                                    document.getId(),
-                                                    (String) document.get("name"),
-                                                    (String) document.get("photo_url"),
-                                                    (String) document.get("description"),
-                                                    (double) document.get("price")
-                                            );
-                                            products.add(newProduct);
+                        // If the cart is empty, we do not search for product details
+                        // Just return the shipping list
+                        if (result.get().isEmpty()) {
+                            db.collection("shipping").get()
+                                    .addOnCompleteListener(task2 -> {
+                                        if (task2.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document :
+                                                    task2.getResult()) {
+                                                Shipping newShipping = new Shipping(
+                                                        (String) document.get("city"),
+                                                        (double) document.get("cost")
+                                                );
+                                                shippingList.add(newShipping);
+                                            }
                                         }
-                                        // Get the Shipping list to be displayed in the cart
-                                        db.collection("shipping").get()
-                                                .addOnCompleteListener(task2 -> {
-                                                    if (task2.isSuccessful()) {
-                                                        for (QueryDocumentSnapshot document :
-                                                                task2.getResult()) {
-                                                            Shipping newShipping = new Shipping(
-                                                                    (String) document.get("city"),
-                                                                    (double) document.get("cost")
-                                                            );
-                                                            shippingList.add(newShipping);
+                                        // Send results to Cart object
+                                        cart.setupCart(result, products, shippingList);
+                                    });
+                        }
+                        else {
+                            // Get product details for the cart once loaded
+                            db.collection("products").whereIn(FieldPath.documentId(),
+                                    Arrays.asList(result.get().keySet().toArray()))
+                                    .get().addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : task1.getResult()) {
+                                                Product newProduct = new Product(
+                                                        document.getId(),
+                                                        (String) document.get("name"),
+                                                        (String) document.get("photo_url"),
+                                                        (String) document.get("description"),
+                                                        (double) document.get("price")
+                                                );
+                                                products.add(newProduct);
+                                            }
+                                            // Get the Shipping list to be displayed in the cart
+                                            db.collection("shipping").get()
+                                                    .addOnCompleteListener(task2 -> {
+                                                        if (task2.isSuccessful()) {
+                                                            for (QueryDocumentSnapshot document :
+                                                                    task2.getResult()) {
+                                                                Shipping newShipping = new Shipping(
+                                                                        (String) document.get("city"),
+                                                                        (double) document.get("cost")
+                                                                );
+                                                                shippingList.add(newShipping);
+                                                            }
                                                         }
-                                                    }
-                                                    // Send results to Cart object
-                                                    cart.setupCart(result, products, shippingList);
-                                                });
+                                                        // Send results to Cart object
+                                                        cart.setupCart(result, products, shippingList);
+                                                    });
+                                        }
                                     }
-                                }
-                        );
+                            );
+                        }
                     }
                 }
         );

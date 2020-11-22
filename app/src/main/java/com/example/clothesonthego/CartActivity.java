@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -46,15 +47,25 @@ public class CartActivity extends AppCompatActivity {
 
         Button checkout = findViewById(R.id.checkout);
         checkout.setOnClickListener(v -> {
-            String dest = destination;
-            DBController controller = new DBController();
-            Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
-            intent.putExtra("destination", dest);
-            intent.putExtra("total", totalPrice);
+            if (destination == null) {
+                Toast toast = Toast.makeText(this, R.string.no_destination,
+                        Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            else if (cart.getProducts().isEmpty()) {
+                Toast toast = Toast.makeText(this, R.string.empty_cart, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            else {
+                DBController controller = new DBController();
+                Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
+                intent.putExtra("destination", destination);
+                intent.putExtra("total", totalPrice);
 
-            // Clear the user's cart and send them to the checkout page
-            controller.clearCart(FirebaseAuth.getInstance().getUid());
-            CartActivity.this.startActivity(intent);
+                // Clear the user's cart and send them to the checkout page
+                controller.clearCart(FirebaseAuth.getInstance().getUid());
+                CartActivity.this.startActivity(intent);
+            }
         });
     }
 

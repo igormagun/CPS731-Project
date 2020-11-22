@@ -5,6 +5,8 @@
     <string name="dollar_amount">$%.2f</string>
     <string name="added_to_cart">Item added to cart</string>
     <string name="blank_quantity">Quantity cannot be blank</string>
+    <string name="no_destination">Please select a destination</string>
+    <string name="empty_cart">Your cart is empty, cannot checkout</string>
     <string name="location_header">Shipping Location</string>
     <string name="total_price_header">Total</string>
     <string name="add_to_cart_string">+ Cart</string>
