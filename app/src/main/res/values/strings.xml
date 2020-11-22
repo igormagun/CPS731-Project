@@ -2,6 +2,7 @@
     <string name="app_name">Clothes On The Go</string>
     <string name="title_activity_toolbar">toolbar</string>
     <string name="shipping_cost">Shipping cost: $%.2f</string>
+    <string name="dollar_amount">$%.2f</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>

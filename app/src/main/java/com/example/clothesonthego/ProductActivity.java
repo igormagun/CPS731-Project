@@ -26,6 +26,7 @@ public class ProductActivity extends AppCompatActivity {
     double price;
 
     TextView name;
+    TextView priceView;
     TextView description;
 
     Button logout;
@@ -39,6 +40,7 @@ public class ProductActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         name = findViewById(R.id.productHeader);
+        priceView = findViewById(R.id.productPrice);
         description = findViewById(R.id.productDescription);
 
         // Get the product details to display
@@ -50,8 +52,8 @@ public class ProductActivity extends AppCompatActivity {
             productDescription = extras.getString("description");
             price = extras.getDouble("price");
 
-            // TODO: Display price, implement description
             name.setText(productName);
+            priceView.setText(getString(R.string.dollar_amount, price));
             description.setText(productDescription);
 
             // Load photo from the specified URL
