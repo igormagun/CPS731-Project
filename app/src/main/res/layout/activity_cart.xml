@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
-        android:text="Shipping Location"
+        android:text="@string/location_header"
         android:textSize="26sp" />
 
     <Spinner
@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
-        android:text="TotalPrice"
+        android:text="@string/total_price_header"
         android:textSize="26sp" />
 
 </LinearLayout>

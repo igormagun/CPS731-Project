@@ -27,8 +27,6 @@ public class CartActivity extends AppCompatActivity {
     private Cart cart;
     private String destination;
     private ArrayList<Shipping> shipping = new ArrayList<>();
-    private DBController controller;
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +43,8 @@ public class CartActivity extends AppCompatActivity {
         cart = new Cart(this);
 
         // Start loading the shipping costs from the database
-        controller = new DBController();
+        DBController controller = new DBController();
         controller.loadShipping(this);
-
-        mAuth = FirebaseAuth.getInstance();
     }
 
     /**
@@ -118,7 +114,5 @@ public class CartActivity extends AppCompatActivity {
 
         CartAdapter adapter = new CartAdapter(this, products, productDetails);
         recyclerView.setAdapter(adapter);
-
-        // TODO: If not null, display the destination and the shipping cost for it
     }
 }

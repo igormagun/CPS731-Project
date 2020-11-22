@@ -10,4 +10,7 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="location_header">Shipping Location</string>
+    <string name="total_price_header">Total</string>
+    <string name="add_to_cart_string">+ Cart</string>
 </resources>

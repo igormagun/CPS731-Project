@@ -38,8 +38,8 @@ public class ProductActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        name = findViewById(R.id.locationHeader);
-        description = findViewById(R.id.ProductDescription);
+        name = findViewById(R.id.productHeader);
+        description = findViewById(R.id.productDescription);
 
         // Get the product details to display
         Bundle extras = getIntent().getExtras();
