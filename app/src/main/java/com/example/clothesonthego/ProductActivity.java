@@ -6,8 +6,10 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,9 +66,24 @@ public class ProductActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         // Set a listener to add the item to the cart on the user's request
-        findViewById(R.id.addToCart).setOnClickListener(v ->
-                controller.addToCart(mAuth.getUid(), productId, Integer.parseInt(
-                        findViewById(R.id.ProductQuantity).toString())));
+        findViewById(R.id.addToCart).setOnClickListener(v -> {
+                    EditText quantityEdit = findViewById(R.id.ProductQuantity);
+                    String qString = quantityEdit.getText().toString();
+                    // Ensure quantity field is not empty
+                    if (!qString.isEmpty()) {
+                        int quantity = Integer.parseInt(qString);
+                        controller.addToCart(mAuth.getUid(), productId, quantity);
+                        Toast toast = Toast.makeText(this, R.string.added_to_cart,
+                                Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                    else {
+                        Toast toast = Toast.makeText(this, R.string.blank_quantity,
+                                Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                });
+
 
         // Set a listener for the Cart button
         findViewById(R.id.viewCart).setOnClickListener(v -> this.startActivity(

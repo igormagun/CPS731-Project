@@ -111,8 +111,24 @@ public class DBController {
     public void addToCart(String userId, String productId, long quantity) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         HashMap<String, Object> newEntry = new HashMap<>();
-        newEntry.put(productId, quantity);
-        db.collection("carts").document(userId).update(newEntry);
+
+        db.collection("carts").document(userId).get().addOnCompleteListener(
+                task -> {
+                    if (task.isSuccessful()) {
+                        Map<String, Object> result = task.getResult().getData();
+                        if (result.containsKey(productId)) {
+                            Long currentQuantity = (Long) result.get(productId);
+                            Long newQuantity = currentQuantity + quantity;
+                            newEntry.put(productId, newQuantity);
+                        }
+                        else {
+                            newEntry.put(productId, quantity);
+                        }
+                        db.collection("carts").document(userId).update(newEntry);
+                    }
+                }
+        );
+
     }
 
     /**
