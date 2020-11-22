@@ -7,26 +7,26 @@ public class Product {
     private final String id;
     private final String type;
     private final String name;
-    private long quantity;
     private final String photoUrl;
+    private final String description;
     private final double price;
-    // TODO: Implement description
 
     /**
      * A constructor for the Product
      * @param id The product ID
      * @param type The product category
      * @param name The product name
-     * @param quantity The quantity of the product available
      * @param photoUrl The URL to the product photo
+     * @param description The product description
      * @param price The product price
      */
-    public Product(String id, String type, String name, long quantity, String photoUrl, double price) {
+    public Product(String id, String type, String name, String photoUrl, String description,
+                   double price) {
         this.id = id;
         this.type = type;
         this.name = name;
-        this.quantity = quantity;
         this.photoUrl = photoUrl;
+        this.description = description;
         this.price = price;
     }
 
@@ -55,11 +55,11 @@ public class Product {
     }
 
     /**
-     * Get the product quantity
-     * @return The product quantity
+     * Get the product description
+     * @return Product description
      */
-    public long getQuantity() {
-        return this.quantity;
+    public String getDescription() {
+        return this.description;
     }
 
     /**
@@ -76,13 +76,5 @@ public class Product {
      */
     public double getPrice() {
         return this.price;
-    }
-
-    /**
-     * Set the product quantity
-     * @param q The new quantity to set
-     */
-    public void setQuantity (long q) {
-        this.quantity = q;
     }
 }

@@ -51,7 +51,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             categoryIntent.putExtra("productName", product.getName());
             categoryIntent.putExtra("photoUrl", product.getPhotoUrl());
             categoryIntent.putExtra("price", product.getPrice());
-            // TODO: Add product description
+            categoryIntent.putExtra("description", product.getDescription());
             context.startActivity(categoryIntent);
         }
     }

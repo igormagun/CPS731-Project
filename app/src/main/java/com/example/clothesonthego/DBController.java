@@ -15,49 +15,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * A controller to interact with the Firestore database
  */
-// TODO: Modify controller to wait for the get() task before returning results
 public class DBController {
-    /**
-     * Loads all products from Firestore
-     * @return An ArrayList of all the products, in their respective categories
-     */
-    public ArrayList<ProductCategory> loadProducts() {
-        // TODO: Determine if this function is still needed
-        HashMap<String, ProductCategory> categories = new HashMap<>();
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("products").get().addOnCompleteListener(
-                task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Product newProduct = new Product(
-                                    document.getId(),
-                                    (String) document.get("product_type"),
-                                    (String) document.get("name"),
-                                    (long) document.get("quantity"),
-                                    (String) document.get("photo_url"),
-                                    (double) document.get("price")
-                            );
-                            if (categories.containsKey(document.get("product_type"))) {
-                                ProductCategory category = categories.get(
-                                        document.get("product_type"));
-                                category.addProduct(newProduct);
-                            }
-                            else {
-                                ArrayList<Product> categoryProducts = new ArrayList<>();
-                                categoryProducts.add(newProduct);
-                                ProductCategory newCategory = new ProductCategory(
-                                        (String) document.get("product_type"),
-                                        categoryProducts
-                                );
-                            }
-                        }
-                    }
-                });
-
-        return new ArrayList<>(categories.values());
-    }
-
     /**
      * Loads all products from Firestore for a given category
      * @param categoryActivity The activity where the products will be displayed
@@ -75,8 +33,8 @@ public class DBController {
                             document.getId(),
                             (String) document.get("product_type"),
                             (String) document.get("name"),
-                            (long) document.get("quantity"),
                             (String) document.get("photo_url"),
+                            (String) document.get("description"),
                             (double) document.get("price")
                     );
                     products.add(newProduct);
@@ -136,8 +94,8 @@ public class DBController {
                                                     document.getId(),
                                                     (String) document.get("product_type"),
                                                     (String) document.get("name"),
-                                                    (long) document.get("quantity"),
                                                     (String) document.get("photo_url"),
+                                                    (String) document.get("description"),
                                                     (double) document.get("price")
                                             );
                                             products.add(newProduct);
