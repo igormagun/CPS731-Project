@@ -187,4 +187,13 @@ public class DBController {
                     }
                 } );
     }
+
+    /**
+     * Clears our a user's cart after checkout
+     * @param userId The user ID
+     */
+    public void clearCart(String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("carts").document(userId).set(new HashMap<>());
+    }
 }
