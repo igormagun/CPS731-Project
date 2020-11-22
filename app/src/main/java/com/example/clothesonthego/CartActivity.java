@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,8 +28,7 @@ public class CartActivity extends AppCompatActivity {
     private Cart cart;
     private String destination;
     private ArrayList<Shipping> shipping = new ArrayList<>();
-
-    Button confirm;
+    private double totalPrice = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +44,17 @@ public class CartActivity extends AppCompatActivity {
         // Create a cart object - this will read the cart from Firebase
         cart = new Cart(this);
 
-        confirm = findViewById(R.id.checkout);
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String dest = destination;
-                Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
-                intent.putExtra("destination", dest);
-                CartActivity.this.startActivity(intent);
-            }
+        Button checkout = findViewById(R.id.checkout);
+        checkout.setOnClickListener(v -> {
+            String dest = destination;
+            DBController controller = new DBController();
+            Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
+            intent.putExtra("destination", dest);
+            intent.putExtra("total", totalPrice);
+
+            // Clear the user's cart and send them to the checkout page
+            controller.clearCart(FirebaseAuth.getInstance().getUid());
+            CartActivity.this.startActivity(intent);
         });
     }
 
@@ -64,7 +67,7 @@ public class CartActivity extends AppCompatActivity {
         HashMap<String, Long> products = cart.getProducts();
         ArrayList<Product> productDetails = cart.getProductDetails();
         this.shipping = cart.getShippingList();
-        double totalPrice = 0;
+        totalPrice = 0;
 
         CartAdapter adapter = new CartAdapter(this, products, productDetails, cart);
         recyclerView.setAdapter(adapter);
@@ -124,7 +127,12 @@ public class CartActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) { }
         });
 
-
+        // Calculate and display total price
+        for (Product product : productDetails) {
+            totalPrice += product.getPrice() * products.get(product.getId());
+        }
+        TextView total = findViewById(R.id.totalCost);
+        total.setText(getString(R.string.dollar_amount, totalPrice));
     }
 
 }
