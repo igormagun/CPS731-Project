@@ -2,6 +2,8 @@ package com.example.clothesonthego;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,12 +18,23 @@ public class Toolbar extends AppCompatActivity {
         setContentView(R.layout.activity_toolbar);
 
         // TODO: Implement as MenuItem to fix this button not working
-        View logout = findViewById(R.id.logout_button);
+    }
 
-        logout.setOnClickListener(v -> {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.logout_button) {
             FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
-            startActivity(intent);
-        });
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -27,4 +27,6 @@ public class CategoryListActivity extends AppCompatActivity {
         CategoryListAdapter adapter = new CategoryListAdapter(this, categoryNameList, categoryImages);
         recyclerView.setAdapter(adapter);
     }
+
+
 }

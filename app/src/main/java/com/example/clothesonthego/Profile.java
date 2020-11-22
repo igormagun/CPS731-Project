@@ -24,12 +24,12 @@ public class Profile extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        logout = findViewById(R.id.logout_button);
+      /*  logout = findViewById(R.id.logout_button);
 
         logout.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
             startActivity(intent);
-        });
+        });*/
     }
 }
