@@ -52,4 +52,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp" />
 
+    <Button
+        android:id="@+id/confirmPurchase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirm" />
+
 </LinearLayout>

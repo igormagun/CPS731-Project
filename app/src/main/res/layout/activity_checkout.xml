@@ -8,6 +8,123 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/activity_toolbar"/>
+        layout="@layout/activity_toolbar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/checkoutRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="371dp"
+        android:layout_marginBottom="166dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/congratulations"
+        android:layout_width="335dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="82dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginBottom="578dp"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:text="Congratulations On Your Purchase!"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/YourOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="178dp"
+        android:layout_marginEnd="101dp"
+        android:layout_marginBottom="534dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Your Order Will Arrive Tomorrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/return_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="155dp"
+        android:layout_marginTop="612dp"
+        android:layout_marginEnd="168dp"
+        android:layout_marginBottom="71dp"
+        android:text="Home"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/locationHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="249dp"
+        android:layout_marginEnd="274dp"
+        android:layout_marginBottom="462dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/location_header"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/totalPriceHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="291dp"
+        android:layout_marginEnd="361dp"
+        android:layout_marginBottom="420dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/total_price_header"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/shippingLocation"
+        android:layout_width="238dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="155dp"
+        android:layout_marginTop="250dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="462dp"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/totalCost"
+        android:layout_width="236dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="155dp"
+        android:layout_marginTop="284dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="427dp"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

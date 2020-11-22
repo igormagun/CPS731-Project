@@ -5,10 +5,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -25,6 +27,8 @@ public class CartActivity extends AppCompatActivity {
     private String destination;
     private ArrayList<Shipping> shipping = new ArrayList<>();
 
+    Button confirm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +42,14 @@ public class CartActivity extends AppCompatActivity {
 
         // Create a cart object - this will read the cart from Firebase
         cart = new Cart(this);
+
+        confirm = findViewById(R.id.confirmButton);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CartActivity.this, CheckoutActivity.class));
+            }
+        });
     }
 
     /**
@@ -116,5 +128,14 @@ public class CartActivity extends AppCompatActivity {
         TextView total = findViewById(R.id.totalCost);
         total.setText(getString(R.string.dollar_amount, totalPrice));
 
+        Intent x = new Intent(this, CheckoutActivity.class);
+        x.putExtra("destination", destination);
+        startActivity(x);
+
+        Intent y = new Intent(this, CheckoutActivity.class);
+        y.putExtra("total", totalPrice);
+        startActivity(y);
+
     }
+
 }
