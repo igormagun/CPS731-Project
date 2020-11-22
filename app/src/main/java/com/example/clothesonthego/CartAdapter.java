@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * An adapter for the RecyclerView in the CartActivity
@@ -39,11 +41,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         final TextView rowName;
         final ImageView rowImage;
+        final EditText quantity;
+        final TextView rowPrice;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
             rowName = itemView.findViewById(R.id.title);
             rowImage = itemView.findViewById(R.id.imageView);
+            quantity = itemView.findViewById(R.id.quantity);
+            rowPrice = itemView.findViewById(R.id.priceLabel);
         }
     }
 
@@ -56,10 +62,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
-        Product product =productDetails.get(position);
+        Product product = productDetails.get(position);
         holder.rowName.setText(product.getName());
         Glide.with(context).load(product.getPhotoUrl()).into(holder.rowImage);
-        // TODO: Add quantity, price
+        holder.quantity.setText(String.format(Locale.CANADA, "%d", products.get(product.getId())));
+        double price = product.getPrice() * products.get(product.getId());
+        holder.rowPrice.setText(context.getString(R.string.dollar_amount, price));
+        // TODO: Add listeners for quantity and delete buttons
     }
 
     @Override
