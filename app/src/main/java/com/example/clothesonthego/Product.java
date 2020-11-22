@@ -3,6 +3,7 @@ package com.example.clothesonthego;
 /**
  * A class representing an individual product
  */
+// TODO: Determine if type is still needed outside the database. If not, remove
 public class Product {
     private final String id;
     private final String type;

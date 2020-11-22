@@ -76,9 +76,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.rowPrice.setText(context.getString(R.string.dollar_amount, price));
 
         // A listener to handle deleting items
-        holder.delete.setOnClickListener(v -> {
-            cart.removeFromCart(product.getId());
-        });
+        holder.delete.setOnClickListener(v -> cart.removeFromCart(product.getId()));
 
         // TODO: Add a listener for quantity changes
     }
