@@ -16,7 +16,6 @@ public class Cart {
     private ArrayList<Shipping> shippingList = new ArrayList<>();
     private String destination = null;
     private static final String DEST_KEY = "destination";
-    private final FirebaseAuth mAuth;
     private final DBController controller;
     private final CartActivity activity;
     private final String userID;
@@ -26,12 +25,12 @@ public class Cart {
      */
     public Cart(CartActivity activity) {
         this.activity = activity;
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         userID = mAuth.getUid();
         controller = new DBController();
 
         // Read all contents from cart - the DBController will call setupCart() once done
-        controller.loadCart(this, mAuth.getUid());
+        controller.loadCart(this, userID);
     }
 
     /**
@@ -136,8 +135,8 @@ public class Cart {
             products.put(productId, quantity);
             // Add to cart will overwrite the existing entry with the new quantity
             controller.addToCart(userID, productId, quantity);
+            activity.setCartContents();
         }
-        activity.setCartContents();
     }
 
     /**
