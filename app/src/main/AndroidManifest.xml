@@ -12,8 +12,7 @@
         <activity
             android:name=".Toolbar"
             android:label="@string/title_activity_toolbar"
-            android:theme="@style/Theme.ClothesOnTheGo.NoActionBar"></activity>
-        <activity android:name=".Profile" />
+            android:theme="@style/Theme.ClothesOnTheGo.NoActionBar" />
         <activity android:name=".CategoryActivity" />
         <activity
             android:name=".SignInActivity"
