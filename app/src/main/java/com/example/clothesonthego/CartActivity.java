@@ -47,7 +47,10 @@ public class CartActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CartActivity.this, CheckoutActivity.class));
+                String dest = destination;
+                Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
+                intent.putExtra("destination", dest);
+                CartActivity.this.startActivity(intent);
             }
         });
     }
@@ -121,20 +124,6 @@ public class CartActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) { }
         });
 
-        // Calculate and display total price
-        for (Product product : productDetails) {
-            totalPrice += product.getPrice() * products.get(product.getId());
-        }
-        TextView total = findViewById(R.id.totalCost);
-        total.setText(getString(R.string.dollar_amount, totalPrice));
-
-        Intent x = new Intent(this, CheckoutActivity.class);
-        x.putExtra("destination", destination);
-        startActivity(x);
-
-        Intent y = new Intent(this, CheckoutActivity.class);
-        y.putExtra("total", totalPrice);
-        startActivity(y);
 
     }
 
