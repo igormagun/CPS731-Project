@@ -14,4 +14,6 @@
     <string name="location_header">Shipping Location</string>
     <string name="total_price_header">Total</string>
     <string name="add_to_cart_string">+ Cart</string>
+    <string name="quantity_label">Quantity</string>
+    <string name="delete_from_cart">Delete</string>
 </resources>
