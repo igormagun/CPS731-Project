@@ -102,6 +102,7 @@ public class DBController {
 
     /**
      * Add the specified item to the specified user's cart
+     * Can also be used to modify the quantity of an existing item, as this overwrites entries
      * @param userId The user's ID
      * @param productId The product ID
      * @param quantity The quantity of the product
@@ -113,32 +114,7 @@ public class DBController {
                 task -> {
                     if (task.isSuccessful()) {
                         Map<String, Object> result = task.getResult().getData();
-                        if (result.containsKey(productId)) {
-                            Long currentQuantity = (Long) result.get(productId);
-                            Long newQuantity = currentQuantity + quantity;
-                            result.put(productId, newQuantity);
-
-                            db.collection("carts").document(userId).set(result);
-                        }
-                    }
-                }
-        );
-    }
-
-    /**
-     * Modify the quantity of an item in the user's cart
-     * @param userId The user's ID
-     * @param productId The product ID to modify
-     * @param newQuantity The new quantity
-     */
-    public void modifyCartQuantity(String userId, String productId, long newQuantity) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("carts").document(userId).get().addOnCompleteListener(
-                task -> {
-                    if (task.isSuccessful()) {
-                        Map<String, Object> result = task.getResult().getData();
-                        result.put(productId, newQuantity);
+                        result.put(productId, quantity);
                         db.collection("carts").document(userId).set(result);
                     }
                 }

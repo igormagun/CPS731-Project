@@ -19,6 +19,7 @@ public class Cart {
     private final FirebaseAuth mAuth;
     private final DBController controller;
     private final CartActivity activity;
+    private final String userID;
 
     /**
      * A constructor for the cart, which will read any existing cart contents from Firestore
@@ -26,6 +27,7 @@ public class Cart {
     public Cart(CartActivity activity) {
         this.activity = activity;
         mAuth = FirebaseAuth.getInstance();
+        userID = mAuth.getUid();
         controller = new DBController();
 
         // Read all contents from cart - the DBController will call setupCart() once done
@@ -62,10 +64,10 @@ public class Cart {
     public void setDestination(String destination) {
         this.destination = destination;
         if (destination == null) {
-            controller.removeDestination(mAuth.getUid());
+            controller.removeDestination(userID);
         }
         else {
-            controller.setDestination(mAuth.getUid(), destination);
+            controller.setDestination(userID, destination);
         }
     }
 
@@ -111,12 +113,14 @@ public class Cart {
         if (products.containsKey(productId)) {
             long currentValue = products.get(productId);
             products.put(productId, currentValue + quantity);
+            // addToCart will overwrite the existing entry with the new quantity
+            controller.addToCart(userID, productId, currentValue + quantity);
         }
         // If the item is not in the cart, add it
         else {
             products.put(productId, quantity);
+            controller.addToCart(userID, productId, quantity);
         }
-        controller.addToCart(mAuth.getUid(), productId, quantity);
     }
 
     /**
@@ -130,7 +134,8 @@ public class Cart {
         }
         else {
             products.put(productId, quantity);
-            controller.modifyCartQuantity(mAuth.getUid(), productId, quantity);
+            // Add to cart will overwrite the existing entry with the new quantity
+            controller.addToCart(userID, productId, quantity);
         }
         activity.setCartContents();
     }
@@ -147,7 +152,7 @@ public class Cart {
                 break;
             }
         }
-        controller.removeFromCart(mAuth.getUid(), productId);
+        controller.removeFromCart(userID, productId);
         activity.setCartContents();
     }
 }
