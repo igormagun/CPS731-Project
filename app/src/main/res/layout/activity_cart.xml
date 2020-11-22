@@ -46,4 +46,10 @@
         android:text="@string/total_price_header"
         android:textSize="26sp" />
 
+    <TextView
+        android:id="@+id/totalCost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp" />
+
 </LinearLayout>

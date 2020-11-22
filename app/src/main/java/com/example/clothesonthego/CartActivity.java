@@ -49,6 +49,7 @@ public class CartActivity extends AppCompatActivity {
         HashMap<String, Long> products = cart.getProducts();
         ArrayList<Product> productDetails = cart.getProductDetails();
         this.shipping = cart.getShippingList();
+        double totalPrice = 0;
 
         CartAdapter adapter = new CartAdapter(this, products, productDetails, cart);
         recyclerView.setAdapter(adapter);
@@ -78,6 +79,7 @@ public class CartActivity extends AppCompatActivity {
             String shippingString = getString(R.string.shipping_cost,
                     shipping.get(index - 1).getCost());
             shippingCost.setText(shippingString);
+            totalPrice += shipping.get(index - 1).getCost();
         }
 
         // Add a listener to change the user's destination when a new one is selected
@@ -104,5 +106,13 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
         });
+
+        // Calculate and display total price
+        for (Product product : productDetails) {
+            totalPrice += product.getPrice() * products.get(product.getId());
+        }
+        TextView total = findViewById(R.id.totalCost);
+        total.setText(getString(R.string.dollar_amount, totalPrice));
+
     }
 }
