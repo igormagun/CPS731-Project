@@ -75,6 +75,7 @@ public class CartActivity extends AppCompatActivity {
             shippingCost.setText(shippingString);
         }
 
+        // Add a listener to change the user's destination when a new one is selected
         destinationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
