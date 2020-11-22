@@ -43,7 +43,7 @@ public class CartActivity extends AppCompatActivity {
         // Create a cart object - this will read the cart from Firebase
         cart = new Cart(this);
 
-        confirm = findViewById(R.id.confirmButton);
+        confirm = findViewById(R.id.checkout);
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
