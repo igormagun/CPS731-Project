@@ -49,7 +49,7 @@ public class CartActivity extends AppCompatActivity {
 
         Button checkout = findViewById(R.id.checkout);
         checkout.setOnClickListener(v -> {
-            if (cart.getDestination() == null) {
+            if (destination == null) {
                 Toast toast = Toast.makeText(this, R.string.no_destination,
                         Toast.LENGTH_SHORT);
                 toast.show();
@@ -61,7 +61,7 @@ public class CartActivity extends AppCompatActivity {
             else {
                 DBController controller = new DBController();
                 Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
-                intent.putExtra("destination", destination);
+                intent.putExtra("destination", cart.getDestination());
                 intent.putExtra("total", totalPrice);
 
                 // Clear the user's cart and send them to the checkout page
@@ -130,6 +130,7 @@ public class CartActivity extends AppCompatActivity {
 
                 // If the position is 0, the user is unselecting a destination
                 if (position == 0) {
+                    destination = null;
                     cart.setDestination(null);
                     shippingCost.setText("");
                     totalPrice(0);
@@ -137,7 +138,8 @@ public class CartActivity extends AppCompatActivity {
                 else {
                     // Decrement the position by 1 to account for the "Select destination" entry
                     Shipping newDestination = shipping.get(position - 1);
-                    cart.setDestination(newDestination.getCity());
+                    destination = newDestination.getCity();
+                    cart.setDestination(destination);
                     String shippingString = getString(R.string.shipping_cost,
                             shipping.get(position - 1).getCost());
                     shippingCost.setText(shippingString);
