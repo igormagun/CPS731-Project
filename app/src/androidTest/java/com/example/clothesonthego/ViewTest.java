@@ -7,7 +7,6 @@ import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
-import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
 import org.hamcrest.Description;
@@ -22,12 +21,12 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static java.lang.Thread.sleep;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -36,35 +35,18 @@ import static org.hamcrest.Matchers.is;
 public class ViewTest {
 
     @Rule
-    public ActivityTestRule<SignInActivity> mActivityTestRule = new ActivityTestRule<>(SignInActivity.class);
+    public ActivityTestRule<CategoryListActivity> mActivityTestRule = new ActivityTestRule<>(CategoryListActivity.class);
 
     @Test
-    public void viewTest() {
-        ViewInteraction materialButton = onView(
-                allOf(withId(R.id.LoginButton), withText("Login"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
-                        isDisplayed()));
-        materialButton.perform(click());
-
+    public void viewTest() throws InterruptedException {
         ViewInteraction linearLayout = onView(
-                allOf(withParent(allOf(withId(R.id.categoryList),
-                        withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class)))),
+                allOf(withId(R.id.categoryList),
+                        withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout.class)),
                         isDisplayed()));
         linearLayout.check(matches(isDisplayed()));
 
-        ViewInteraction imageView = onView(
-                allOf(withId(R.id.imageView),
-                        withParent(withParent(withId(R.id.categoryList))),
-                        isDisplayed()));
-        imageView.check(matches(isDisplayed()));
-
         ViewInteraction textView = onView(
                 allOf(withId(R.id.title), withText("Shirts"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
                         isDisplayed()));
         textView.check(matches(withText("Shirts")));
 
@@ -82,22 +64,10 @@ public class ViewTest {
         recyclerView2.perform(actionOnItemAtPosition(0, click()));
 
         ViewInteraction linearLayout2 = onView(
-                allOf(withParent(allOf(withId(R.id.productList),
-                        withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class)))),
+                allOf(withId(R.id.productList),
+                        withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class)),
                         isDisplayed()));
         linearLayout2.check(matches(isDisplayed()));
-
-        ViewInteraction imageView2 = onView(
-                allOf(withId(R.id.imageView),
-                        withParent(withParent(withId(R.id.productList))),
-                        isDisplayed()));
-        imageView2.check(matches(isDisplayed()));
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.title), withText("Fancy Shirt"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
-                        isDisplayed()));
-        textView2.check(matches(withText("Fancy Shirt")));
 
         ViewInteraction recyclerView3 = onView(
                 allOf(withId(R.id.productList),
@@ -105,6 +75,7 @@ public class ViewTest {
                         isDisplayed()));
         recyclerView3.check(matches(isDisplayed()));
 
+        sleep(1000);
         ViewInteraction recyclerView4 = onView(
                 allOf(withId(R.id.productList),
                         childAtPosition(
