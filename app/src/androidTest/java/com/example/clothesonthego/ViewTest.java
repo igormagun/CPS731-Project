@@ -30,6 +30,14 @@ import static java.lang.Thread.sleep;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
+/**
+ * This Espresso tests looks at three "View" use cases:
+ * - View category list
+ * - View list of products in a category
+ * - View product
+ *
+ * And verifies that the expected elements display.
+ */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class ViewTest {
