@@ -12,6 +12,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +41,7 @@ public class CartTest {
     private FirebaseAuth mAuth;
 
     private Cart cart;
+    private Product testProduct;
 
     @Before
     public void setup() throws Exception {
@@ -55,27 +57,63 @@ public class CartTest {
 
         // Create a Cart to test using our mock CartActivity
         cart = new Cart(cartActivity);
-    }
 
-    @Test
-    public void addToCart() {
+        // Populate the cart with a test item. Each test will check/modify this accordingly
         Map<String, Object> testCart = new HashMap<>();
         testCart.put("12345", 2L);
         AtomicReference<Map<String, Object>> testCartReference = new AtomicReference<>(testCart);
 
+        // Place a test Product object in the expected ArrayList
         ArrayList<Product> productList = new ArrayList<>();
-        Product testProduct = new Product("12345", "test", "test",
+        testProduct = new Product("12345", "test", "test",
                 "test", 123.56);
         productList.add(testProduct);
 
         cart.setupCart(testCartReference, productList, new ArrayList<>());
+    }
 
+    @Test
+    public void addToCart() {
         Map<String, Long> resultCart = cart.getProducts();
         assertEquals(resultCart.size(), 1);
-        assertEquals(resultCart.get("12345"), Long.valueOf(2));
+        assertEquals(resultCart.get(testProduct.getId()), Long.valueOf(2));
 
         ArrayList<Product> productDetails = cart.getProductDetails();
         assertEquals(productDetails.size(), 1);
         assertEquals(productDetails.get(0), testProduct);
+    }
+
+    @Test
+    public void removeFromCart() {
+        cart.removeFromCart(testProduct.getId());
+
+        Map<String, Long> resultCart = cart.getProducts();
+        assertEquals(resultCart.size(), 0);
+
+        ArrayList<Product> productDetails = cart.getProductDetails();
+        assertEquals(productDetails.size(), 0);
+    }
+
+    @Test
+    public void modifyQuantity() {
+        // First test adjusting to a non-zero quantity
+        cart.modifyQuantity(testProduct.getId(), 3);
+
+        Map<String, Long> resultCart = cart.getProducts();
+        assertEquals(resultCart.size(), 1);
+        assertEquals(resultCart.get(testProduct.getId()), Long.valueOf(3));
+
+        ArrayList<Product> productDetails = cart.getProductDetails();
+        assertEquals(productDetails.size(), 1);
+        assertEquals(productDetails.get(0), testProduct);
+
+        // Now test modifying to a zero quantity - this should delete the product
+        cart.modifyQuantity(testProduct.getId(), 0);
+
+        resultCart = cart.getProducts();
+        assertEquals(resultCart.size(), 0);
+
+        productDetails = cart.getProductDetails();
+        assertEquals(productDetails.size(), 0);
     }
 }
