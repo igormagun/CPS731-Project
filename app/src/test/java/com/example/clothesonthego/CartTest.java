@@ -7,6 +7,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
@@ -32,21 +33,24 @@ public class CartTest {
     CartActivity cartActivity;
 
     @Mock (name = "controller")
-    DBController dbController;
+    DBController controller;
 
     @Mock (name = "mAuth")
-    FirebaseAuth auth;
+    FirebaseAuth mAuth;
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
+    MockedStatic<FirebaseAuth> mockAuth;
     Cart cart;
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
-        Mockito.when(FirebaseAuth.getInstance()).thenReturn(null);
-        Mockito.when(auth.getUid()).thenReturn("test");
+        MockitoAnnotations.openMocks(this);
+        mockAuth = Mockito.mockStatic(FirebaseAuth.class);
+        Mockito.when(mAuth.getUid()).thenReturn("test");
+        Mockito.doNothing().when(controller).loadCart(cart, "test");
+        mockAuth.when(FirebaseAuth::getInstance).thenReturn(mAuth);
         cart = new Cart(cartActivity);
     }
 

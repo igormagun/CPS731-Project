@@ -19,13 +19,14 @@ public class Cart {
     private final DBController controller;
     private final CartActivity activity;
     private final String userID;
+    private final FirebaseAuth mAuth;
 
     /**
      * A constructor for the cart, which will read any existing cart contents from Firestore
      */
     public Cart(CartActivity activity) {
         this.activity = activity;
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         userID = mAuth.getUid();
         controller = new DBController();
 
